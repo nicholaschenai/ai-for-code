@@ -2,12 +2,14 @@
 Really quick notes for my own reference so pardon the untidyness. Will occasionally copy paste directly from the papers!
 
 ---
-# Personal Observations
+# Personal Observations and clues
 
 - Common problem: limitation of the model's input size
-- Breaking task down into subtasks generally helps
+- Breaking task down into subtasks generally helps (clue: "Evaluating Large Language Models Trained on Code" showed that performance decays exponentially with number of components (tasks), even if the individual components are easy)
 - Good prompting can sometimes be more performant than fine-tuning
 - Including RL, allowing model to interact with code and using the error messages as feedback signal generally helps (eg CodeRL) and makes training more efficient (and smaller model size requirement for same level of performance)
+- "Program Synthesis with Large Language Models" showed that LLMs struggle with basic task of code execution (given fn and input, predict output). Suggests that future code assistants must have a compiler/ interpreter equipped to execute code
+- "Do Users Write More Insecure Code with AI Assistants?" (2022) Yes.
 ---
 # Benchmarks
 - Alphacode dataset 2022
@@ -19,6 +21,7 @@ Really quick notes for my own reference so pardon the untidyness. Will occasiona
 # Notes on General Papers
 
 ### AlphaCode
+- see stanford cs224n 2023 L15 for review
 - training		
     - pre-trg: transformer for code completeion	
     - ft: encode problem as comment, decode to give soln	
@@ -157,7 +160,9 @@ Really quick notes for my own reference so pardon the untidyness. Will occasiona
 - Data Flow Graph useful but can be very long, trunated to 30 lines			
 				
 ### Combining Contexts from Multiple Sources for Documentation-Specific Code Example Generation 
-[[Code](https://github.com/disa-lab/AutomaticCodeExample_SANER23)]	
+[[Code](https://github.com/disa-lab/AutomaticCodeExample_SANER23)]
+[[Code](https://arxiv.org/abs/2303.14542)]
+
 - example generation for documentation by prompting gpt3
 - 40 examples on scikit learn, small sample size
 - incorporation of error logs (produced by the compiler while executing a failed code example) in the input further improves the passability from 72.5% (base) to 87.5%
