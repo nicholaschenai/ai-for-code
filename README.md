@@ -17,11 +17,12 @@ Really quick notes for my own reference so pardon the untidyness. Will occasiona
 | -------- | ------- | --- | ---|
 | [MTPB](https://github.com/salesforce/CodeGen/tree/main/codegen1/benchmark) | 2023 | multi-turn program synthesis |
 | [Long Code Completion](https://github.com/microsoft/CodeBERT/tree/master/LongCoder)  | 2023    |"... code completion with long code context for ... Python, Java, and C# ... from the github-code2 dataset" |
-| [CodeContests](https://github.com/deepmind/code_contests) | 2022 | Competitive programming dataset of qns, ans, human submissions (correct and incorrect)| 7% pass@1 BRAINSTORM|
-| [APPS](https://github.com/hendrycks/apps) | 2021    | "10,000 problems, which range from having simple one-line solutions to being substantial algorithmic challenges."| Competition: 2.5% pass@1 Codex-Davinci-002, Interview: 8.1% pass@1 CodeT w Codex-Davinci-002|
-| [Python Programming Puzzles](https://github.com/microsoft/PythonProgrammingPuzzles)| 2021| |
-| [HumanEval](https://arxiv.org/abs/2107.03374)| 2021| |67% pass@1 (GPT4), open models 57.3% (WizardCoder) |
-| [MBPP](https://arxiv.org/abs/2108.07732)|2021 | | 67.7% pass@1 (CodeT w code-davinci-002)|
+| [CodeContests](https://github.com/deepmind/code_contests) | 2022 | Competitive programming dataset of qns, ans, human submissions (correct and incorrect)| 7% pass@1 ChatGPT+BRAINSTORM|
+| [APPS](https://github.com/hendrycks/apps) | 2021    | "10,000 problems, which range from having simple one-line solutions to being substantial algorithmic challenges."| Competition: 5.9% pass@1 ChatGPT+BRAINSTORM, Interview: 21.0% pass@1 ChatGPT, Intro: 51.8% pass@1 ChatGPT|
+| [Python Programming Puzzles](https://github.com/microsoft/PythonProgrammingPuzzles)| 2021| "Each puzzle is defined by a short Python program f, and the goal is to find an input which makes f return True. The puzzles are objective in that each one is specified entirely by the source code of its verifier f, so evaluating f is all that is needed to test a candidate solution"|
+| [HumanEval](https://arxiv.org/abs/2107.03374)| 2021| |91% pass@1 (Reflexion+GPT4), open models 57.3% (WizardCoder) |
+| [MBPP](https://arxiv.org/abs/2108.07732)|2021 | " 974 programming tasks, designed to be solvable by entry-level programmers" | 67.7% pass@1 (CodeT w code-davinci-002), 68.9% execution accuracy (LEVER), 68.2% (pass@1??) Self-collaboration|
+| [MathQA-Python](https://arxiv.org/abs/2108.07732)|2021 | "Python version of the MathQA benchmark, contains 23914 problems that evaluate the ability of the models to synthesize code from more complex text." | 81.2% fine tuned (original paper)|
 |[CodeXGLUE benchmark](https://github.com/microsoft/CodeXGLUE) |2021 |Suite of tasks. Code completion, repair, translation. CodeSearchNet for code retrieval from natural lang | CodeSearchNet 77.4% CodeT5+ 770M|
 
 ---
@@ -177,7 +178,7 @@ Really quick notes for my own reference so pardon the untidyness. Will occasiona
     - Codegen: An open large language model for code with multi-turn program synthesis
     - A systematic evaluation of large language models of code
 - security
-    - **Recommending Root-Cause and Mitigation Steps for Cloud Incidents using Large Language Models**
+    - Recommending Root-Cause and Mitigation Steps for Cloud Incidents using Large Language Models
 - testing
     - Large Language Models are Few-shot Testers: Exploring LLM-based General Bug Reproduction
     - No More Manual Tests? Evaluating and Improving ChatGPT for Unit Test Generation
@@ -188,8 +189,7 @@ Really quick notes for my own reference so pardon the untidyness. Will occasiona
     - Towards Generating Functionally Correct Code Edits from Natural Language Issue Descriptions
     - Automated Repair of Programs from Large Language Models
     - Repair is nearly generation: Multilingual program repair with llms.
-- tool use
-    - On the effectiveness of pretrained models for api learning
+
 
 ### CODE4STRUCT: Code Generation for Few-Shot Structured Prediction from Natural Language
 [[Code](https://github.com/xingyaoww/code4struct)]
