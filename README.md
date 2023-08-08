@@ -1,9 +1,8 @@
 # Brief notes on AI for code
-Really quick notes for my own reference so pardon the untidyness. Will occasionally copy paste directly from the papers!
+Literature review + quick notes for my own reference so pardon the untidyness. Will occasionally copy paste directly from the papers!
 
 ---
 # Personal Observations and clues
-
 - Common problem: limitation of the model's input size
 - Breaking task down into subtasks generally helps (clue: "Evaluating Large Language Models Trained on Code" showed that performance decays exponentially with number of components (tasks), even if the individual components are easy)
 - Good prompting can sometimes be more performant than fine-tuning
@@ -18,12 +17,15 @@ Really quick notes for my own reference so pardon the untidyness. Will occasiona
 | [MTPB](https://github.com/salesforce/CodeGen/tree/main/codegen1/benchmark) | 2023 | multi-turn program synthesis |
 | [Long Code Completion](https://github.com/microsoft/CodeBERT/tree/master/LongCoder)  | 2023    |"... code completion with long code context for ... Python, Java, and C# ... from the github-code2 dataset" |
 | [CodeContests](https://github.com/deepmind/code_contests) | 2022 | Competitive programming dataset of qns, ans, human submissions (correct and incorrect)| 7% pass@1 ChatGPT+BRAINSTORM|
+| [GCPY](https://arxiv.org/abs/2207.01780) | 2022 | Enlarged python dataset from Github Code dataset. 10.5b tokens|  |
 | [APPS](https://github.com/hendrycks/apps) | 2021    | "10,000 problems, which range from having simple one-line solutions to being substantial algorithmic challenges."| Competition: 5.9% pass@1 ChatGPT+BRAINSTORM, Interview: 21.0% pass@1 ChatGPT, Intro: 51.8% pass@1 ChatGPT|
 | [Python Programming Puzzles](https://github.com/microsoft/PythonProgrammingPuzzles)| 2021| "Each puzzle is defined by a short Python program f, and the goal is to find an input which makes f return True. The puzzles are objective in that each one is specified entirely by the source code of its verifier f, so evaluating f is all that is needed to test a candidate solution"|
 | [HumanEval](https://arxiv.org/abs/2107.03374)| 2021| |91% pass@1 (Reflexion+GPT4), open models 57.3% (WizardCoder) |
 | [MBPP](https://arxiv.org/abs/2108.07732)|2021 | " 974 programming tasks, designed to be solvable by entry-level programmers" | 67.7% pass@1 (CodeT w code-davinci-002), 68.9% execution accuracy (LEVER), 68.2% (pass@1??) Self-collaboration|
 | [MathQA-Python](https://arxiv.org/abs/2108.07732)|2021 | "Python version of the MathQA benchmark, contains 23914 problems that evaluate the ability of the models to synthesize code from more complex text." | 81.2% fine tuned (original paper)|
 |[CodeXGLUE benchmark](https://github.com/microsoft/CodeXGLUE) |2021 |Suite of tasks. Code completion, repair, translation. CodeSearchNet for code retrieval from natural lang | CodeSearchNet 77.4% CodeT5+ 770M|
+
+Note: n@k means k generated samples, subsample n of them for evaluation
 
 ---
 
@@ -50,15 +52,42 @@ Really quick notes for my own reference so pardon the untidyness. Will occasiona
     - generates dead code at the same rate as humans (copy pasting functions into code just in case for speedup of typing, but not used in the end)	
     - poor at dynamic programming	
 
-### CodeRL
+### CodeRL (NeurIPS 2022)
+[[Paper](https://arxiv.org/abs/2207.01780)]
 [[Blog](https://blog.salesforceairesearch.com/coderl/)]	
-- RL component with T5
-- beats (20.98% vs 8.09% pass@1000) alphacode for APPS dataset
-- Zero-shot transfer learning to the MBPP benchmark:  63.0% pass@80 vs 61.4 for 137B GPT
-- model is 770M params ( ~ 8GB) but beats GPT at 137B params	
-- they also do the 'generate candidates, filter out those that don’t compile' thing	
-- still makes silly mistakes like syntax error, value/ idx error, type error	
-	- suggests that writing own templates then substituting params can be useful
+- Intro
+    - RL component with CodeT5
+    - beats (20.98% vs 8.09% pass@1000) alphacode for APPS dataset
+    - Zero-shot transfer learning to the MBPP benchmark:  63.0% pass@80 vs 61.4 for 137B GPT
+    - model is 770M params ( ~ 8GB?) but beats GPT at 137B params
+- RL component
+    - code generating LM: actor network (policy, with code generation as action)
+    - critic network (smaller than actor network) to predict if code will have the following outcomes: Compile error, runtime error, failed test, passed test. 
+    - Policy gradient via REINFORCE
+    - reward: -1 for compile error, -0.6 for runtime error, -0.3 for failing any unit test, +1 for passing all unit tests
+        - can lead to unstable training with high variance of gradient estimate
+    - for stability: baseline programs (greedy decoding) are considered, generated samples that outperform this are given positive return estimation (and negative return otherwise)
+        - policy gradient now modified so that reward of input, is replaced with the difference between reward of input and baseline reward (standard RL trick so there is no bias)
+    - During training, the hidden states are pooled along the sequence length dim (so the resultant is of hidden dim) and then linear+softmax is applied to predict unit test outcome
+    - given a learned critic, each hidden state then goes thru a linear+softmax to estimate the outcome (probability distribution), and at each timestep the ground truth probability is chosen as a weight to the sum grad log term, giving us the final form of the policy gradient (eqn 10)
+    - There is also a separate critic for program refinement. This is trained similarly to the above critic, but for binary classification (predict pass or fail unit test) 
+- Inference
+    - For samples that pass unit tests, the program refinement critic will split successful sequences at a position corresponding to the highest assigned value for that sequence, and use the LHS as a seed for resampling to obtain new programs
+    - the program refinement critic model also selects the highest M code examples that failed the unit test, and passes them to a repair module together with the compiler error messages 
+        - repair module trained to maximize probability of generated code given buggy program, description, outcome (the 4 types) and error subtype.
+- (Pre) training
+    - claim: masked span prediction benefits code understanding but not program synthesis
+    - solution: next token prediction, where the pivot is uniformly sampled within 10-90% of original sequence. Content preceding pivot goes into encoder, remainder goes to decoder.
+    - imitation learning to warm start a pretrained LM with cross entropy loss for up to 10 epochs, then freeze the actor while training the critic
+    - critic trained on synthetic programs and GT programs
+    - after training the critic, actor is finetuned with cross entropy and RL loss
+    - in each training optimization step, the policy gradient is approximated by sampling
+- performance
+    - as k increases, the performance gain of CodeRL is more significant than base models (GPT-J, CodeT5). They conclude that the RL loss encourages more exploration
+    - using only cross entropy loss will lead to overfitting -- suggests that to scale up, use RL loss too.
+- weaknesses
+    - still makes silly mistakes like syntax error, value/ idx error, type error	
+        - suggests that writing own templates then substituting params can be useful
 
 ### Parsel : A (De-)compositional Framework for Algorithmic Reasoning with Language Models
 [[Code](https://github.com/ezelikman/parsel)]	
