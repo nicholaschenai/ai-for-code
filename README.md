@@ -12,6 +12,13 @@ Literature review + quick notes for my own reference so pardon the untidyness. W
 - "Textbooks are all you need" -- shows that data quality matters and influences scaling laws, enables better performance even with smaller models (see Tinystories for more general stuff)
 ---
 # Benchmarks / Datasets
+
+- 3 broad areas
+    - functional synthesis: generate code that achieves a goal, regardless of efficiency
+    - algorithmic synthesis: generate code that solves a problem which requires knowledge in data structures and algorithms, puzzle solving
+    - navigating environments: generate commands which programmatically finds the answer in an environment, eg web
+
+## Functional/ algorithmic synthesis
 | Name    | Year | Description | SOTA|
 | -------- | ------- | --- | ---|
 | [MTPB](https://github.com/salesforce/CodeGen/tree/main/codegen1/benchmark) | 2023 | multi-turn program synthesis |
@@ -26,6 +33,49 @@ Literature review + quick notes for my own reference so pardon the untidyness. W
 |[CodeXGLUE benchmark](https://github.com/microsoft/CodeXGLUE) |2021 |Suite of tasks. Code completion, repair, translation. CodeSearchNet for code retrieval from natural lang | CodeSearchNet 77.4% CodeT5+ 770M|
 
 Note: n@k means k generated samples, subsample n of them for evaluation
+
+## Navigating environments
+### WebArena: A Realistic Web Environment for Building Autonomous Agents
+[[Code](https://github.com/web-arena-x/webarena)]
+[[Site](https://webarena.dev/)]
+- Web environment 
+    - websites from four categories (forum, ecommerce, CMS, collaborative software platforms) that emulate their real-world equivalents
+    - "tools and knowledge resources as independent websites" (map, wiki, calculator, scratchpad, documentation to dev tools)
+    - helps in reproducible research -- in live environments, websites can have CAPTCHAs, evolving content and configs that make fair evaluation hard (but I think good agents should be able to handle these stumbling blocks!) 
+- Benchmark on translating natural language commands to web-based interactions, checking for functional correctness
+    - 812 long horizon tasks
+    - user profiles (pre-populated history, various roles like user and admin)
+    - Intent curation
+        - 3 criteria: complexity (>2 actions), creativity (adding constraints to common tasks), deconstruction (task is broken down into templates and variables)
+    - Intent categories: Info seeking, site navigation, content and config operations
+    - evaluation annotations
+        - for info seeking tasks, the GT text answer is provided and predictions are compared via programs like 'exact match', 'fuzzy match' and 'must include'. Recall metrics are emphasized due to nature of task
+        - site navigation, content and config tasks: the intermediate states in the agent's execution phase are checked for alignment with intent, via a `locator` that retrieves the items from a location, and the `keywords` that need to exist via comparison programs above. (eg if the intent is to make a forum post about a topic, then the URL, body and content must match the specifications given in the task)
+    - Includes unachievable tasks. Might be useful for catching hallucination (agent giving confident answers when there is none)
+- Observation space: screenshot, HTML DOM tree, accessibility tree of active tab (can have other tabs in browser too)
+- Action space: 10 actions in 3 categories (elemental operations like clicking, tab operations like opening a new tab, URL operations like going back) + 1 noop
+- Baselines
+    - best GPT agent (GPT4 with reasoning prompts) has success rate 10.59%, potentially due to lack of active exploration and failure recovery
+    - of 41 templates, GPT4 agent only gets 100% on 1 template
+    - Failure modes
+        - Early stopping: GPT4 agent erroneously identifies 54.9% of feasible tasks as impossible
+        - Observation bias: "GPT-4 agent often demonstrates a tendency to latch onto the first related piece of information it encounters without sufficiently verifying its relevance or accuracy" 
+        - Failures in Observation Interpretation: eg not remembering past searches and repeatedly searching same term
+
+### AgentBench: Evaluating LLMs as Agents
+[[Code](https://github.com/THUDM/AgentBench)]
+[[Site](https://llmbench.ai/)]
+- Benchmark to evaluate agents across a spectrum of 8 envs
+
+**New envs**
+| Env Name  | Description | Contents/ Construction| Evaluation|
+| -------- | ------- | --- | --- |
+|OS | natural lang to shell commands. 2 tasks: QA (agent needs to output ans) and operations (eg change files. agent needs to output commands) |Instruction, docker env, checking pipeline. Optional scripts for initialization, starting, examples | evaluated via success rate (binary)|
+|DB | natural lang to interact w SQL DB | each sample contains the instruction, codebook, the table itself, and the answer (text for selection type samples, hash of the correctly modified table for other entry type) | macro avg of the 3 categories (not sure which 3. initialization, interaction and checking?)|
+|KG | compiled a dataset from pre-existing KBQA datasets such as GrailQA, ComplexWebQuestions, GraphQuestions. curate qns which necessitate >= 5 instances of tool invocation | input qn, entities, gold action sequence, gold ans| F1 between pred and gold, exact match between pred and gold, executability |
+| Digital card game| Aquawar game | creatures are initially hidden, creatures can attack each other and player can guess the opponent's creatures. This env uses a simplified version of the game. | Completion rate, avg num of illegal action, num defeated creatures, total dmg inflicted, winrate|
+| lateral thinking puzzles | Game where players ask questions to a host where the host can only reply 'yes', 'no' or 'irrelevant', in order to guess what the host has in mind |story - truth pair| Single game accuracy, round efficiency, query relevance, game progress (points for intermediate steps)|
+
 
 ---
 
@@ -138,6 +188,26 @@ Note: n@k means k generated samples, subsample n of them for evaluation
 - high temperature at 0.8
 - using test cases generated by a stronger model can boost the performance of a weaker model
 - quality of test cases strongly correlates to the performance gain using CODET concerning different models, concluded by studying toxicity rate (rate which other solutions can pass a test which canonical solution cannot)
+
+
+
+**Recompiled envs**
+| Env Name  | Description | Contents/ Construction| Evaluation|
+| -------- | ------- | --- | --- |
+| House-holding (ALFWorld) | Embodied agent simulator | env desc (eg agents initial position, snapshot of room containing objects and IDs), objective, feedback from env | Success rate (rate of tasks completed) |
+| online shopping (WebShop) | web env with prodts scraped from amazon and attributes annotated | input: products to buy. outputs: thoughts and actions | see metric in paper, related to the similarity in attributes of the bought and GT item, and a price term |
+| web browsing (Mind2Web) | domains of Travel, Information, Sevice, Shopping, and Entertainment, assembled using SimilarWeb ranking | task description, reference action sequence (element ids, symbolic action types like click, type and select options), webpage info | element accuracy, action F1, step (intermediate) and task success rate|
+
+- Integrated toolkit with docker images for ease of use
+- LLM Evaluation
+    - 289 tasks in dev, 1141 in test. Multi-turn interaction requires agent to generate ~4k and 13k steps respectively to solve the tasks
+    - Standardization of scores across tasks: in each task, the weight is the reciprocal of avg score of all tested LLMs. then the total score is computed by a weighted sum of scores with the above weights
+    - in a sense, the scores signify the model's performance in terms of multiples of the average
+    - evaluated on 25 LLMs, scores are ~ 4.41 for top closed source models (GPT4) and 1.15 for open source models (openchat-13b). Per task scores are typically in the double digits for closed models (eg GPT4 gets 17.6%-78%) and single digits/ teens for open sourced models (eg openchat-13b's per task score ranges from 0-50.2%)
+- analysis
+    - common error: invalid actions
+    - open sourced models are limited by context size (esp when the tasks are multi-turn)
+    - some models forget their roles
 
 ---
 
