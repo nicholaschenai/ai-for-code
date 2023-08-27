@@ -66,7 +66,7 @@ Note: n@k means k generated samples, subsample n of them for evaluation
 [[Code](https://github.com/THUDM/AgentBench)]
 [[Site](https://llmbench.ai/)]
 - Benchmark to evaluate agents across a spectrum of 8 envs
-
+- These 8 envs are separate -- each task only involves 1 env
 **New envs**
 | Env Name  | Description | Contents/ Construction| Evaluation|
 | -------- | ------- | --- | --- |
@@ -95,6 +95,45 @@ Note: n@k means k generated samples, subsample n of them for evaluation
     - open sourced models are limited by context size (esp when the tasks are multi-turn)
     - some models forget their roles
     
+
+### Mind2Web: Towards a Generalist Agent for the Web
+[[Code](https://github.com/OSU-NLP-Group/Mind2Web)]
+[[Site](https://osu-nlp-group.github.io/Mind2Web/)]
+- Contributions:
+    - 2350 open-ended tasks collected from 137 websites spanning 31 domains and crowdsourced action sequences for the tasks
+        - Top level Domains: Travel, Info, Service, Shopping, Entertainment
+        - selected by popularity in US, 3-5 per domain
+    - Explored using LLMs for generalist web agents
+- Task curation via AMT:
+    1. ask worker to propose tasks that can be performed on given website. these are screened by the authors before the next step
+        - 3 criteria: Diverse, multiple rounds of interaction, described in high level detail rather than step by step instructions
+        - ChatGPT to provide 50 seed tasks per website for inspiration to annotators 
+    2. ask worker to perform the task. Interaction trace and snapshots are recorded via an annotation tool with Playwright
+    3. Authors verify all task demonstrations
+- Dataset details
+    - Data split: 
+        - 1k+ train
+        - test: 
+            - 252 cross task (tasks from same website seen during training)
+            - 177 cross website (website not seen during trg, but same domain)
+            - 912 cross domain (domain not seen during training)
+    - each task contains
+        - description
+        - `actions`: list of `(Operation, Target Element)` actions to complete the task, where `operation` can be `Click` (also including `Hover`, `Press Enter`), `Type` and `Select`
+        - `Webpage` Snapshots that serve as the environment
+            - `raw_html` and `cleaned_html`, html before action is performed
+            - `DOM Snapshot`
+            - `Image`
+            - `HAR`: network traffic for replay
+            - `Trace` that contains the complete interaction trace for the annotation
+        - `pos_candidates` which are GT elements in `cleaned_html`
+        - `neg_candidates` other candidate elements in page after preprocessing
+    -  also contain recordings of annotation (via playwright), session storage
+    - avg 1135 elements, 7.3 actions
+- "... ChatGPT & GPT-4 to extract intents, objects and conditions from the tasks, and assign tags."
+- MINDACT: fined tuned small LM to filter web elements from HTML, then use LLM to select from filtered elements in an MCQ way to predict actions with the element    
+
+
 ---
 
 # Notes on General Papers
