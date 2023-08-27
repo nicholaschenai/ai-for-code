@@ -67,6 +67,7 @@ Note: n@k means k generated samples, subsample n of them for evaluation
 [[Site](https://llmbench.ai/)]
 - Benchmark to evaluate agents across a spectrum of 8 envs
 - These 8 envs are separate -- each task only involves 1 env
+
 **New envs**
 | Env Name  | Description | Contents/ Construction| Evaluation|
 | -------- | ------- | --- | --- |
