@@ -104,7 +104,7 @@ Note: n@k means k generated samples, subsample n of them for evaluation
     - 2350 open-ended tasks collected from 137 websites spanning 31 domains and crowdsourced action sequences for the tasks
         - Top level Domains: Travel, Info, Service, Shopping, Entertainment
         - selected by popularity in US, 3-5 per domain
-    - Explored using LLMs for generalist web agents
+    - MINDACT: LLMs for generalist web agents
 - Task curation via AMT:
     1. ask worker to propose tasks that can be performed on given website. these are screened by the authors before the next step
         - 3 criteria: Diverse, multiple rounds of interaction, described in high level detail rather than step by step instructions
@@ -130,9 +130,16 @@ Note: n@k means k generated samples, subsample n of them for evaluation
         - `pos_candidates` which are GT elements in `cleaned_html`
         - `neg_candidates` other candidate elements in page after preprocessing
     -  also contain recordings of annotation (via playwright), session storage
-    - avg 1135 elements, 7.3 actions
+    - avg 1135 elements (580 after preprocessing to keep those that are visible and carry substantial semantic meaning), 7.3 actions
 - "... ChatGPT & GPT-4 to extract intents, objects and conditions from the tasks, and assign tags."
-- MINDACT: fined tuned small LM to filter web elements from HTML, then use LLM to select from filtered elements in an MCQ way to predict actions with the element    
+- MINDACT
+    - First, a fined tuned small LM filters the top k web elements and HTML snippets from the full HTML doc/ candidate elements, given task description and previous actions
+        - element reprsentation: tag, text content, salient attribute values, representation of parent and child elements
+        - NCE style training: use GT and sampled negative elements
+    - next, use LLM to select from filtered elements in an MCQ way to predict actions with the element, given task description and previous actions
+        - MCQ: divide top k into batches of 5. If >1 option is selected after a round, new groups are formed with the selected ones. repeat till a single element is selected or all options rejected (None option is chosen)
+    - various metrics, but the most stringent is success rate for the whole task
+        - 7.1%, 5.1%, 2.9% as we increase the test difficulty, while baseline (DeBERTa ft) gets near 0 for all
 
 
 ---
