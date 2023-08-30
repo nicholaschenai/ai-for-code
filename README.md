@@ -42,6 +42,7 @@ Note: n@k means k generated samples, subsample n of them for evaluation
     - websites from four categories (forum, ecommerce, CMS, collaborative software platforms) that emulate their real-world equivalents
     - "tools and knowledge resources as independent websites" (map, wiki, calculator, scratchpad, documentation to dev tools)
     - helps in reproducible research -- in live environments, websites can have CAPTCHAs, evolving content and configs that make fair evaluation hard (but I think good agents should be able to handle these stumbling blocks!) 
+    - Functional correctness: Allows for alternate methods that achieve the same outcome, rather than be constrained to one fixed GT action sequence
 - Benchmark on translating natural language commands to web-based interactions, checking for functional correctness
     - 812 long horizon tasks
     - user profiles (pre-populated history, various roles like user and admin)
@@ -119,18 +120,21 @@ Note: n@k means k generated samples, subsample n of them for evaluation
             - 177 cross website (website not seen during trg, but same domain)
             - 912 cross domain (domain not seen during training)
     - each task contains
-        - description
+        - task description, 
+        - site name, domain, subdomain
         - `actions`: list of `(Operation, Target Element)` actions to complete the task, where `operation` can be `Click` (also including `Hover`, `Press Enter`), `Type` and `Select`
         - `Webpage` Snapshots that serve as the environment
             - `raw_html` and `cleaned_html`, html before action is performed
+                - In reality we dont have cleaned HTML. so agent must be able to extract visual elements
+        - `pos_candidates` which are GT elements in `cleaned_html`
+        - `neg_candidates` other candidate elements in page after preprocessing
+    - avg 1135 elements (580 after preprocessing to keep those that are visible and carry substantial semantic meaning), 7.3 actions
+    - additional data not used in task but might be helpful
             - `DOM Snapshot`
             - `Image`
             - `HAR`: network traffic for replay
             - `Trace` that contains the complete interaction trace for the annotation
-        - `pos_candidates` which are GT elements in `cleaned_html`
-        - `neg_candidates` other candidate elements in page after preprocessing
-    -  also contain recordings of annotation (via playwright), session storage
-    - avg 1135 elements (580 after preprocessing to keep those that are visible and carry substantial semantic meaning), 7.3 actions
+            -  recordings of annotation (via playwright), session storage
 - "... ChatGPT & GPT-4 to extract intents, objects and conditions from the tasks, and assign tags."
 - MINDACT
     - First, a fined tuned small LM filters the top k web elements and HTML snippets from the full HTML doc/ candidate elements, given task description and previous actions
@@ -140,7 +144,10 @@ Note: n@k means k generated samples, subsample n of them for evaluation
         - MCQ: divide top k into batches of 5. If >1 option is selected after a round, new groups are formed with the selected ones. repeat till a single element is selected or all options rejected (None option is chosen)
     - various metrics, but the most stringent is success rate for the whole task
         - 7.1%, 5.1%, 2.9% as we increase the test difficulty, while baseline (DeBERTa ft) gets near 0 for all
-
+- Weakness
+    - Static environment (agent only sees html and needs to predict the action sequence, even if action sequence changes the HTML midway via JS (eg clicking a drop down bar))
+        - however i see in the DOM tree that there are some JS libraries included -- maybe that can be used to predict the dynamics of the website?
+    - Fixed GT trajectory -- might have alternate trajectories which achieve same goal
 
 ---
 
