@@ -130,11 +130,11 @@ Note: n@k means k generated samples, subsample n of them for evaluation
         - `neg_candidates` other candidate elements in page after preprocessing
     - avg 1135 elements (580 after preprocessing to keep those that are visible and carry substantial semantic meaning), 7.3 actions
     - additional data not used in task but might be helpful
-            - `DOM Snapshot`
-            - `Image`
-            - `HAR`: network traffic for replay
-            - `Trace` that contains the complete interaction trace for the annotation
-            -  recordings of annotation (via playwright), session storage
+        - `DOM Snapshot`
+        - `Image`
+        - `HAR`: network traffic for replay
+        - `Trace` that contains the complete interaction trace for the annotation
+        -  recordings of annotation (via playwright), session storage
 - "... ChatGPT & GPT-4 to extract intents, objects and conditions from the tasks, and assign tags."
 - MINDACT
     - First, a fined tuned small LM filters the top k web elements and HTML snippets from the full HTML doc/ candidate elements, given task description and previous actions
