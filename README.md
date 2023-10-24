@@ -256,14 +256,6 @@ Note: n@k means k generated samples, subsample n of them for evaluation
 ---
 # Other
 
-
-### Auto-GPT
-- not specifically for code but the multi tool use seems applicable to SW dev process
-- break into subtasks, then use tools to try and achieve those
-    - wiki: " manages short-term and long-term memory by writing to and reading from databases and files; manages context window length requirements with summarization; can perform internet-based actions such as web searching, web form, and API interactions unattended; and includes text-to-speech for voice output"
-- issues: wiki " Auto-GPT often also has trouble staying on task, both problems which developers continue to try to address. After successfully completing a task, it usually does not remember how to perform it for later use, and when it does, for example when it writes a program, it often forgets to use the program later. Auto-GPT struggles to effectively decompose tasks and has trouble understanding problem contexts and how goals overlap"
-
-
 ### Exploring the Effectiveness of Large Language Models in Generating Unit Tests
 [[Code](https://zenodo.org/record/7875623)]
 - key contributions:
