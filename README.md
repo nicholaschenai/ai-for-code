@@ -20,13 +20,13 @@ Literature review + quick notes for my own reference so pardon the untidyness. W
 
 | Name    | Year | Description | SOTA|
 | -------- | ------- | --- | ---|
-| [SWE-BENCH](https://github.com/princeton-nlp/SWE-bench) | 2023 | "2,294 software engineering problems drawn from real GitHub issues and corresponding pull requests across 12 popular Python repositories" | |
-| [CrossCodeEval](https://github.com/amazon-science/cceval) | 2023 | "strictly require cross-file context for accurate completion" | |
+| [SWE-BENCH](https://github.com/princeton-nlp/SWE-bench) | 2023 | "2,294 software engineering problems drawn from real GitHub issues and corresponding pull requests across 12 popular Python repositories". eval via test cases after patching | |
+| [CrossCodeEval](https://github.com/amazon-science/cceval) | 2023 | "strictly require cross-file context for accurate completion". evaluation via edit similarity and exact match, no execution | |
 | [MTPB](https://github.com/salesforce/CodeGen/tree/main/codegen1/benchmark) | 2023 | multi-turn program synthesis | |
 | [Long Code Completion](https://github.com/microsoft/CodeBERT/tree/master/LongCoder)  | 2023    |"... code completion with long code context for ... Python, Java, and C# ... from the github-code2 dataset" | |
-| [CodeContests](https://github.com/deepmind/code_contests) | 2022 | Competitive programming dataset of qns, ans, human submissions (correct and incorrect)| 7% pass@1 ChatGPT+BRAINSTORM|
+| [CodeContests](https://github.com/deepmind/code_contests) | 2022 | Competitive programming dataset of qns, ans, human submissions (correct and incorrect)| 13.75% pass@1 GPT3.5+CodeChain + CodeT filtering|
 | [GCPY](https://arxiv.org/abs/2207.01780) | 2022 | Enlarged python dataset from Github Code dataset. 10.5b tokens|  |
-| [APPS](https://github.com/hendrycks/apps) | 2021    | "10,000 problems, which range from having simple one-line solutions to being substantial algorithmic challenges."| Competition: 5.9% pass@1 ChatGPT+BRAINSTORM, Interview: 21.0% pass@1 ChatGPT, Intro: 51.8% pass@1 ChatGPT|
+| [APPS](https://github.com/hendrycks/apps) | 2021    | "10,000 problems, which range from having simple one-line solutions to being substantial algorithmic challenges."| pass@1 Competition: 12.38%, Interview: 28.11%, Intro: 54.5% all CodeChain + GPT3.5|
 | [Python Programming Puzzles](https://github.com/microsoft/PythonProgrammingPuzzles)| 2021| "Each puzzle is defined by a short Python program f, and the goal is to find an input which makes f return True. The puzzles are objective in that each one is specified entirely by the source code of its verifier f, so evaluating f is all that is needed to test a candidate solution"|
 | [HumanEval](https://arxiv.org/abs/2107.03374)| 2021| |94.4% pass@1 (LATS+GPT4), open models 57.3% (WizardCoder) |
 | [MBPP](https://arxiv.org/abs/2108.07732)|2021 | " 974 programming tasks, designed to be solvable by entry-level programmers" | 68.9% execution accuracy (LEVER), 68.2% (pass@1??) Self-collaboration, 81.1% LATS|
