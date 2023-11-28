@@ -20,14 +20,16 @@ Literature review + quick notes for my own reference so pardon the untidyness. W
 
 | Name    | Year | Description | SOTA|
 | -------- | ------- | --- | ---|
-| [MTPB](https://github.com/salesforce/CodeGen/tree/main/codegen1/benchmark) | 2023 | multi-turn program synthesis |
-| [Long Code Completion](https://github.com/microsoft/CodeBERT/tree/master/LongCoder)  | 2023    |"... code completion with long code context for ... Python, Java, and C# ... from the github-code2 dataset" |
+| [SWE-BENCH](https://github.com/princeton-nlp/SWE-bench) | 2023 | "2,294 software engineering problems drawn from real GitHub issues and corresponding pull requests across 12 popular Python repositories" | |
+| [CrossCodeEval](https://github.com/amazon-science/cceval) | 2023 | "strictly require cross-file context for accurate completion" | |
+| [MTPB](https://github.com/salesforce/CodeGen/tree/main/codegen1/benchmark) | 2023 | multi-turn program synthesis | |
+| [Long Code Completion](https://github.com/microsoft/CodeBERT/tree/master/LongCoder)  | 2023    |"... code completion with long code context for ... Python, Java, and C# ... from the github-code2 dataset" | |
 | [CodeContests](https://github.com/deepmind/code_contests) | 2022 | Competitive programming dataset of qns, ans, human submissions (correct and incorrect)| 7% pass@1 ChatGPT+BRAINSTORM|
 | [GCPY](https://arxiv.org/abs/2207.01780) | 2022 | Enlarged python dataset from Github Code dataset. 10.5b tokens|  |
 | [APPS](https://github.com/hendrycks/apps) | 2021    | "10,000 problems, which range from having simple one-line solutions to being substantial algorithmic challenges."| Competition: 5.9% pass@1 ChatGPT+BRAINSTORM, Interview: 21.0% pass@1 ChatGPT, Intro: 51.8% pass@1 ChatGPT|
 | [Python Programming Puzzles](https://github.com/microsoft/PythonProgrammingPuzzles)| 2021| "Each puzzle is defined by a short Python program f, and the goal is to find an input which makes f return True. The puzzles are objective in that each one is specified entirely by the source code of its verifier f, so evaluating f is all that is needed to test a candidate solution"|
-| [HumanEval](https://arxiv.org/abs/2107.03374)| 2021| |91% pass@1 (Reflexion+GPT4), open models 57.3% (WizardCoder) |
-| [MBPP](https://arxiv.org/abs/2108.07732)|2021 | " 974 programming tasks, designed to be solvable by entry-level programmers" | 67.7% pass@1 (CodeT w code-davinci-002), 68.9% execution accuracy (LEVER), 68.2% (pass@1??) Self-collaboration|
+| [HumanEval](https://arxiv.org/abs/2107.03374)| 2021| |94.4% pass@1 (LATS+GPT4), open models 57.3% (WizardCoder) |
+| [MBPP](https://arxiv.org/abs/2108.07732)|2021 | " 974 programming tasks, designed to be solvable by entry-level programmers" | 68.9% execution accuracy (LEVER), 68.2% (pass@1??) Self-collaboration, 81.1% LATS|
 | [MathQA-Python](https://arxiv.org/abs/2108.07732)|2021 | "Python version of the MathQA benchmark, contains 23914 problems that evaluate the ability of the models to synthesize code from more complex text." | 81.2% fine tuned (original paper)|
 |[CodeXGLUE benchmark](https://github.com/microsoft/CodeXGLUE) |2021 |Suite of tasks. Code completion, repair, translation. CodeSearchNet for code retrieval from natural lang | CodeSearchNet 77.4% CodeT5+ 770M|
 
@@ -160,7 +162,10 @@ Note: n@k means k generated samples, subsample n of them for evaluation
 - Thought instruction: CoT-like mechanism when coding, break down into steps and execute them
 - Thought instruction also employed during debugging
 - Documentation comes last
-- Evaluated on 70 requests
+- Evaluated on 70 requests, measuring metrics like
+    - statistical analysis (num code files, asset files, version updates etc)
+    - duration distribution
+    - suggestions by roles like Tester and Reviewer
 - Key pitfalls:
     - context limit reached easily
     - external dependencies
