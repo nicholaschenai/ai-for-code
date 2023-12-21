@@ -36,8 +36,29 @@ Literature review + quick notes for my own reference so pardon the untidyness. W
 Note: n@k means k generated samples, subsample n of them for evaluation
 
 ---
+# Brief notes on security
+Things to look out for when executing code which might be a security risk
+- stuff that can mess with files (eg `os`)
+- stuff that can reverse shell (eg `os`)
+- access to global variables can leak API keys
+- stuff that can load files (eg `pickle`, `yaml`) as files can be malicious
+---
 
 # Notes on General Papers
+
+### Clover: Closed-Loop Verifiable Code Generation
+[[Paper](https://arxiv.org/abs/2310.17807)]
+- Dafny programs as it allows for formal verification
+- Self consistency: checks pairwise between these: code, formal verification annotation, docstring
+    - code- annotation	
+        - standard formal verification
+        - LM generate code from anno, check for equiv w old code
+    - annotation - docstring:	
+        - gen new docstring frm annotation. New n original docstring checked for semantic equiv. 
+        - LM gen new anno from docstring. New and old anno checked for equiv via formal methods
+    - code -docstring	
+        - gen code frm docstring, check code equiv via formal verification
+        - gen docstring frm code, check for semantic equiv
 
 ### AlphaCode
 [[Paper](https://www.science.org/doi/10.1126/science.abq1158)]
@@ -305,9 +326,3 @@ Note: n@k means k generated samples, subsample n of them for evaluation
 - [tree sitter](https://github.com/tree-sitter/tree-sitter) to derive semantic facts 		
 - Data Flow Graph useful but can be very long, trunated to 30 lines		
 
-### Combining Contexts from Multiple Sources for Documentation-Specific Code Example Generation 
-[[Code](https://github.com/disa-lab/AutomaticCodeExample_SANER23)]
-[[Paper](https://arxiv.org/abs/2303.14542)]
-- example generation for documentation by prompting gpt3
-- 40 examples on scikit learn, small sample size
-- incorporation of error logs (produced by the compiler while executing a failed code example) in the input further improves the passability from 72.5% (base) to 87.5%
