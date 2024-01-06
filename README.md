@@ -6,49 +6,89 @@ Literature review + quick notes for my own reference so pardon the untidyness. W
 - Common problem: limitation of the model's input size
 - Breaking task down into subtasks generally helps (clue: "Evaluating Large Language Models Trained on Code" showed that performance decays exponentially with number of components (tasks), even if the individual components are easy)
 - Good prompting can sometimes be more performant than fine-tuning
-- Including RL, allowing model to interact with code and using the error messages as feedback signal generally helps (eg CodeRL) and makes training more efficient (and smaller model size requirement for same level of performance)
-- "Program Synthesis with Large Language Models" showed that LLMs struggle with basic task of code execution (given fn and input, predict output). Suggests that future code assistants must have a compiler/ interpreter equipped to execute code
+- Code Execution for verification helps (so equip the model with a compiler/ interpreter)
+	- "Program Synthesis with Large Language Models" showed that LLMs struggle with basic task of code execution (given fn and input, predict output). 
+	- "Language Models Can Teach Themselves to Program Better": gen puzzle, then gen soln. execute to get correct pairs. Use pairs as ft data
+	- CodeT filters candidates via execution
+	-  Including RL, allowing model to interact with code and using the error messages as feedback signal generally helps (eg CodeRL) and makes training more efficient (and smaller model size requirement for same level of performance)
 - "Do Users Write More Insecure Code with AI Assistants?" (2022) Yes.
 - "Textbooks are all you need" -- shows that data quality matters and influences scaling laws, enables better performance even with smaller models (see Tinystories for more general stuff)
----
-# Benchmarks / Datasets
-
-- 2 broad areas
-    - Functional synthesis: generate code that achieves a goal, regardless of efficiency
-    - Algorithmic synthesis: generate code that solves a problem which requires knowledge in data structures and algorithms, puzzle solving
-
-
-| Name    | Year | Description | SOTA|
-| -------- | ------- | --- | ---|
-| [SWE-BENCH](https://github.com/princeton-nlp/SWE-bench) | 2023 | "2,294 software engineering problems drawn from real GitHub issues and corresponding pull requests across 12 popular Python repositories". eval via test cases after patching | |
-| [CrossCodeEval](https://github.com/amazon-science/cceval) | 2023 | "strictly require cross-file context for accurate completion". evaluation via edit similarity and exact match, no execution | |
-| [MTPB](https://github.com/salesforce/CodeGen/tree/main/codegen1/benchmark) | 2023 | multi-turn program synthesis | |
-| [Long Code Completion](https://github.com/microsoft/CodeBERT/tree/master/LongCoder)  | 2023    |"... code completion with long code context for ... Python, Java, and C# ... from the github-code2 dataset" | |
-| [buggy-code-completion](https://github.com/amazon-science/buggy-code-completion)  | 2023    | 1900 buggy code completion problems. NeurIPS 2023 | |
-| [ClassEval](https://arxiv.org/abs/2308.01861)  | 2023    | 100 class-level Python code generation tasks | |
-| [CoderEval](https://arxiv.org/abs/2302.00288)  | 2023    | 230 python n java probs for non-standalone fn gen | |
-| [CodeContests](https://github.com/deepmind/code_contests) | 2022 | Competitive programming dataset of qns, ans, human submissions (correct and incorrect)| 13.75% pass@1 GPT3.5+CodeChain + CodeT filtering|
-| [GCPY](https://arxiv.org/abs/2207.01780) | 2022 | Enlarged python dataset from Github Code dataset. 10.5b tokens|  |
-| [TorchDataEval, MonkeyEval, and BeatNumEval](https://arxiv.org/abs/2210.17236) | 2022 | modified versions of existing libraries. meant to test model's ability to learn new libraries|  |
-| [APPS](https://github.com/hendrycks/apps) | 2021    | "10,000 problems, which range from having simple one-line solutions to being substantial algorithmic challenges."| pass@1 Competition: 12.38%, Interview: 28.11%, Intro: 54.5% all CodeChain + GPT3.5|
-| [Python Programming Puzzles](https://github.com/microsoft/PythonProgrammingPuzzles)| 2021| "Each puzzle is defined by a short Python program f, and the goal is to find an input which makes f return True. The puzzles are objective in that each one is specified entirely by the source code of its verifier f, so evaluating f is all that is needed to test a candidate solution"|
-| [HumanEval](https://arxiv.org/abs/2107.03374)| 2021| |94.4% pass@1 (LATS+GPT4), open models 57.3% (WizardCoder) |
-| [MBPP](https://arxiv.org/abs/2108.07732)|2021 | " 974 programming tasks, designed to be solvable by entry-level programmers" | 68.9% execution accuracy (LEVER), 68.2% (pass@1??) Self-collaboration, 81.1% LATS|
-| [MathQA-Python](https://arxiv.org/abs/2108.07732)|2021 | "Python version of the MathQA benchmark, contains 23914 problems that evaluate the ability of the models to synthesize code from more complex text." | 81.2% fine tuned (original paper)|
-|[CodeXGLUE benchmark](https://github.com/microsoft/CodeXGLUE) |2021 |Suite of tasks. Code completion, repair, translation. CodeSearchNet for code retrieval from natural lang | CodeSearchNet 77.4% CodeT5+ 770M|
-
-Note: n@k means k generated samples, subsample n of them for evaluation
 
 ---
+
 # Brief notes on security
 Things to look out for when executing code which might be a security risk
 - stuff that can mess with files (eg `os`)
 - stuff that can reverse shell (eg `os`)
 - access to global variables can leak API keys
 - stuff that can load files (eg `pickle`, `yaml`) as files can be malicious
+
+Safeguard example in [HumanEval](https://github.com/openai/human-eval/blob/master/human_eval/execution.py) (see `check_correctness()`): 
+
+---
+
+# Benchmarks / Datasets
+
+## Reasoning across files
+| Name | Year | Description | open SOTA | closed SOTA |
+| ---- | ---- | ---- | ---- | ---- |
+| [SWE-BENCH](https://github.com/princeton-nlp/SWE-bench) | 2023 | "2,294 software engineering problems drawn from real GitHub issues and corresponding pull requests across 12 popular Python repositories". eval via test cases after patching |  |  |
+| [RepoCoder](https://github.com/microsoft/CodeT/tree/main/RepoCoder) | 2023 | "Repository-Level Code Completion Through Iterative Retrieval and Generation" |  |  |
+| [CrossCodeEval](https://github.com/amazon-science/cceval) | 2023 | "strictly require cross-file context for accurate completion". evaluation via edit similarity and exact match, no execution |  |  |
+
+
+## Algorithmic synthesis
+
+generate code that solves a problem which requires knowledge in data structures and algorithms, puzzle solving
+
+| Name | Year | Description | open SOTA | closed SOTA |
+| ---- | ---- | ---- | ---- | ---- |
+| [CodeContests](https://github.com/deepmind/code_contests) | 2022 | Competitive programming dataset of qns, ans, human submissions (correct and incorrect) |  | 13.75% pass@1 GPT3.5+CodeChain + CodeT filtering |
+| [APPS](https://github.com/hendrycks/apps) | 2021 | 10k problems, half of them interview level (LC style), the other half split among beginner probs (Intro) and competitive programming (Competition) probs |  | pass@1 Competition: 12.38%, Interview: 28.11%, Intro: 54.5% all CodeChain + GPT3.5 |
+
+## Functional synthesis
+
+generate code that achieves a goal, regardless of efficiency. (the below contains a mix of both functional and algorithmic probs but are predominantly the former)
+
+| Name | Year | Description | open SOTA | closed SOTA |
+| ---- | ---- | ---- | ---- | ---- |
+| [MBPP](https://arxiv.org/abs/2108.07732) | 2021 | " 974 programming tasks, designed to be solvable by entry-level programmers" |  | 68.9%  (LEVER), 68.2% (pass@1??) Self-collaboration, 81.1% LATS + GPT3.5 |
+| [HumanEval](https://arxiv.org/abs/2107.03374) | 2021 | "164 handwritten programming problems ... Each problem includes a function signature, docstring, body, and several unit tests, with an average of 7.7 tests per problem" | 57.3% (WizardCoder) | 94.4% pass@1 (LATS+GPT4), |
+
+## Functional synthesis ++
+
+functional synthesis with added complexity (eg beyond standalone functions, inclusion of bugs etc)
+
+| Name | Year | Description | open SOTA | closed SOTA |
+| ---- | ---- | ---- | ---- | ---- |
+| [MTPB](https://github.com/salesforce/CodeGen/tree/main/codegen1/benchmark) | 2023 | multi-turn program synthesis |  |  |
+| [Long Code Completion](https://github.com/microsoft/CodeBERT/tree/master/LongCoder) | 2023 | "... code completion with long code context for ... Python, Java, and C# ... from the github-code2 dataset" |  |  |
+| [buggy-code-completion](https://github.com/amazon-science/buggy-code-completion) | 2023 | 1900 buggy code completion problems. NeurIPS 2023 |  |  |
+| [ClassEval](https://arxiv.org/abs/2308.01861) | 2023 | 100 class-level Python code generation tasks |  |  |
+| [CoderEval](https://arxiv.org/abs/2302.00288) | 2023 | 230 python n java probs for non-standalone fn gen |  |  |
+
+## Adjacent
+
+| Name | Year | Description | open SOTA | closed SOTA |
+| ---- | ---- | ---- | ---- | ---- |
+| [Python Programming Puzzles](https://github.com/microsoft/PythonProgrammingPuzzles) | 2021 | "Each puzzle is defined by a short Python program f, and the goal is to find an input which makes f return True. The puzzles are objective in that each one is specified entirely by the source code of its verifier f, so evaluating f is all that is needed to test a candidate solution" |  |  |
+| [MathQA-Python](https://arxiv.org/abs/2108.07732) | 2021 | "Python version of the MathQA benchmark, contains 23914 problems that evaluate the ability of the models to synthesize code from more complex text." | 81.2% fine tuned (original paper) |  |
+
+## Other
+
+
+| Name | Year | Description | open SOTA | closed SOTA |
+| ---- | ---- | ---- | ---- | ---- |
+| [GCPY](https://arxiv.org/abs/2207.01780) | 2022 | Enlarged python dataset from Github Code dataset. 10.5b tokens |  |  |
+| [TorchDataEval, MonkeyEval, and BeatNumEval](https://arxiv.org/abs/2210.17236) | 2022 | modified versions of existing libraries. meant to test model's ability to learn new libraries |  |  |
+| [CodeXGLUE benchmark](https://github.com/microsoft/CodeXGLUE) | 2021 | Suite of tasks. Code completion, repair, translation. CodeSearchNet for code retrieval from natural lang | CodeSearchNet 77.4% CodeT5+ 770M |  |
+
+Note: `n@k` means `k` generated samples, subsample `n` of them for evaluation
+
 ---
 
 # Notes on General Papers
+
 
 ### Clover: Closed-Loop Verifiable Code Generation
 [[Paper](https://arxiv.org/abs/2310.17807)]
@@ -75,7 +115,6 @@ Things to look out for when executing code which might be a security risk
         - Separate transformer trained in unit testing creates test cases, 
         - candidates r  clustered  based on their outputs of test case, 
         - then small sample is selected for submission, one frm each of the 10 largest clusters
-        - so its kinda neuro symbolic since the candidates r executed
 - provided CodeContests dataset	
 - uses some RL: Generation by off-policy learning from demonstrations 		
 - has tricks to use metadata to guide sample diversity		
@@ -197,6 +236,15 @@ Things to look out for when executing code which might be a security risk
     - "repetitive expressions of gratitude"
     - Top code reviewer suggestions: methods not implemented, modules not imported, missing comments, missing exception handling
 - Personal comment: largely LM based, does not contain any standard symbolic stuff like static analysis, running the code etc
+
+
+### CodeChain: Towards Modular Code Generation Through Chain of Self-revisions with Representative Sub-modules
+[[Code](https://github.com/SalesforceAIResearch/CodeChain/)]
+
+### Language Agent Tree Search (LATS)
+[[Code](https://github.com/andyz245/LanguageAgentTreeSearch)]
+- MCTS style for planning-based decision making (eg ToT)
+
 ---
 
 # Notes on Papers focusing on Few Shot Learning
@@ -255,33 +303,44 @@ Things to look out for when executing code which might be a security risk
     - makes simple mistakes like syntax error (missing parentheses), reversed args, wrong number of args
         - note to self: maybe an additional layer of cross checking via foundation model / env execution? then feedback to foundation model 
 
+---
+# Other lit reviews
+
+[A Survey of Large Language Models for Code: Evolution, Benchmarking, and Future Trends](https://arxiv.org/abs/2311.10372)
 
 ---
+# Practical details
 
-# TODO
+## MBPP
+- bugs
+	- rounding. Eg task 574, GT uses approx pi instead of true value
+	- fn signature. eg task 640 makes it sound like input is string, but assertion requires list of string!
+	-  wording. Eg GT takes in list of 2-tuples but code takes 2 args, each arg is a v long tuple. See task 417 too.
 
-- general
-    - Code Generation Tools (Almost) for Free? A Study of Few-Shot, Pre-Trained Language Models on Code
-    - Codegen: An open large language model for code with multi-turn program synthesis
-    - A systematic evaluation of large language models of code
-- security
-    - Recommending Root-Cause and Mitigation Steps for Cloud Incidents using Large Language Models
-- testing
-    - Large Language Models are Few-shot Testers: Exploring LLM-based General Bug Reproduction
-    - No More Manual Tests? Evaluating and Improving ChatGPT for Unit Test Generation
-- repair
-    - Impact of Code Language Models on Automated Program Repair.
-    - CONVERSATIONAL AUTOMATED PROGRAM REPAIR
-    - Practical Program Repair in the Era of Large Pre-trained Language Models
-    - Towards Generating Functionally Correct Code Edits from Natural Language Issue Descriptions
-    - Automated Repair of Programs from Large Language Models
-    - Repair is nearly generation: Multilingual program repair with llms.
+## APPS
 
+- question.txt contains qn, then input output expectations, examples, and optionally notes.
+- 2 types of probs
+	- call based: has starter code, fn header
+	- standard input format: no startercode, output ans to STDOUT stream (eg via print). Solns are scripts, might nt have fns
+	- Handling both cases: see https://github.com/hendrycks/apps/blob/main/eval/testing_util.py  eg for call based, input_output json has "fn_name" key for correct name
+- input_output.json is a dict (keys are inputs, outputs) of list of strings which can be newline delimited. 
+	- if nonempty, all ends with newline char, even if one liner (eg test 0000), sounds like need to split by that char
+	- not all will have input output eg train 4900 has examples within the qn but not the input output json
+- solns: list of strings, multiple solns (Avg 23 soln per qn). May nt exist for testset
+- a ton of test cases.  To see model improvements esp if problem is too hard, get avg testcase score instead of expecting all pass
 
-### CODE4STRUCT: Code Generation for Few-Shot Structured Prediction from Natural Language
-[[Code](https://github.com/xingyaoww/code4struct)]
-- Event Argument Extraction (NLP task) via generating code
-- has some of the neuro symbolic stuff i wanna do, revisit later
+## Transformed datasets
+applies to standard benchmarks like APPS, codecontests, MBPP, HumanEval. good to use when you need them in a common + cleaned format, or easy download
+- Many of them have HF versions
+- some papers have cleaner vers of the datasets eg Reflexion, CodeT
+	- but watch for bugs eg in CodeT, for MBPP id6 it used the first fn instead of the last fn
+	- reflexion: MBPP: id 56, cos they keep using 'check' as defaul eval fn, they rename the original problem to 'checks'. also this has 397 examples which is a subset of the 427 sanitized set by the original MBPP authors
+
+---
+# Frameworks / Tools
+- [InterCode](https://github.com/princeton-nlp/intercode) "framework for designing interactive code environments to evaluate language agents that can code."
+- langchain python tools like REPL (and pythoninputs data validation model) n sanitize. search python in https://api.python.langchain.com/en/latest/experimental_api_reference.html
 
 ---
 # Other
