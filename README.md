@@ -52,8 +52,10 @@ generate code that achieves a goal, regardless of efficiency. (the below contain
 
 | Name | Year | Description | open SOTA | closed SOTA |
 | ---- | ---- | ---- | ---- | ---- |
-| [MBPP](https://arxiv.org/abs/2108.07732) | 2021 | " 974 programming tasks, designed to be solvable by entry-level programmers" |  | 68.9%  (LEVER), 68.2% (pass@1??) Self-collaboration, 81.1% LATS + GPT3.5 |
-| [HumanEval](https://arxiv.org/abs/2107.03374) | 2021 | "164 handwritten programming problems ... Each problem includes a function signature, docstring, body, and several unit tests, with an average of 7.7 tests per problem" | 57.3% (WizardCoder) | 94.4% pass@1 (LATS+GPT4), |
+| [MBPP-Eval / MBPP-ET](https://github.com/YihongDong/CodeGenEvaluation) | 2023 | "Each task of them contains an NL description, several reference codes, 10+ generated codes, and 100+ test cases" [paper](https://arxiv.org/abs/2301.09043) |  |  |
+| [EvalPlus](https://github.com/evalplus/evalplus) | 2023 | cleaned and expanded version of MBPP and HumanEval [paper](https://arxiv.org/abs/2305.01210) | see [leaderboard](https://evalplus.github.io/leaderboard.html) |  |
+| [MBPP](https://github.com/google-research/google-research/tree/master/mbpp) | 2021 | " 974 programming tasks, designed to be solvable by entry-level programmers". [Accompanying paper](https://arxiv.org/abs/2108.07732) |  | 68.9%  (LEVER), 68.2% (pass@1??) Self-collaboration, 81.1% LATS + GPT3.5 |
+| [HumanEval](https://arxiv.org/abs/2107.03374) | 2021 | "164 handwritten programming problems ... Each problem includes a function signature, docstring, body, and several unit tests, with an average of 7.7 tests per problem" | 57.3% (WizardCoder) | 94.4% pass@1 (LATS+GPT4) |
 
 ## Functional synthesis ++
 
@@ -107,6 +109,8 @@ Note: `n@k` means `k` generated samples, subsample `n` of them for evaluation
 ### AlphaCode
 [[Paper](https://www.science.org/doi/10.1126/science.abq1158)]
 [[Blog](https://www.deepmind.com/blog/competitive-programming-with-alphacode)]	
+[[CodeContests repo](https://github.com/google-deepmind/code_contests)]
+[[CodeContests dataset](https://console.cloud.google.com/storage/browser/dm-code_contests)]
 - see stanford cs224n 2023 L15 for review
 - training		
     - pre-trg: transformer for code completeion	
@@ -197,13 +201,13 @@ Note: `n@k` means `k` generated samples, subsample `n` of them for evaluation
 - base models: 3 variants of Codex, InCoder, CodeGen
 - instruction p consists of three parts: 
     - (1) a “pass” statement as a placeholder of the function body, which signals that we do not need to generate code for the function, 
-    - (2) a comment “check the correctness of [entry point]” to clarify the intention of generating test cases, where “[entry point]” is the name of the function
+    - (2) a comment “check the correctness of `[entry point]`” to clarify the intention of generating test cases, where “`[entry point]`” is the name of the function
     - (3) an “assert” statement to start the test case generation, which specifies the format of the test cases as input-output pairs.
 - DUAL EXECUTION AGREEMENT
     - randomly sample candidate solution x and testcase y. If x passes y, we construct a consensus set S
-        - first get S_y, the set of test cases that x passes.
-        - then get S_x, the set of candidate solutions that passes exactly the same test cases as x
-        - score = | S_x || S_y |
+        - first get $S_y$, the set of test cases that x passes.
+        - then get $S_x$, the set of candidate solutions that passes exactly the same test cases as x
+        - score = | $S_x$ || $S_y$ |
     - do this for a few rounds to get multiple sets
     -  get the best code solution x* by selecting any code solution from the consensus set with the highest score. If we want to obtain k code solutions, we can select the top k consensus sets with the highest scores, and one code solution is picked up from each of the k consensus sets
     - in practice, we can compute for all possible (x, y) pairs due to the small size rather than sampling
@@ -308,34 +312,6 @@ Note: `n@k` means `k` generated samples, subsample `n` of them for evaluation
 
 [A Survey of Large Language Models for Code: Evolution, Benchmarking, and Future Trends](https://arxiv.org/abs/2311.10372)
 
----
-# Practical details
-
-## MBPP
-- bugs
-	- rounding. Eg task 574, GT uses approx pi instead of true value
-	- fn signature. eg task 640 makes it sound like input is string, but assertion requires list of string!
-	-  wording. Eg GT takes in list of 2-tuples but code takes 2 args, each arg is a v long tuple. See task 417 too.
-
-## APPS
-
-- question.txt contains qn, then input output expectations, examples, and optionally notes.
-- 2 types of probs
-	- call based: has starter code, fn header
-	- standard input format: no startercode, output ans to STDOUT stream (eg via print). Solns are scripts, might nt have fns
-	- Handling both cases: see https://github.com/hendrycks/apps/blob/main/eval/testing_util.py  eg for call based, input_output json has "fn_name" key for correct name
-- input_output.json is a dict (keys are inputs, outputs) of list of strings which can be newline delimited. 
-	- if nonempty, all ends with newline char, even if one liner (eg test 0000), sounds like need to split by that char
-	- not all will have input output eg train 4900 has examples within the qn but not the input output json
-- solns: list of strings, multiple solns (Avg 23 soln per qn). May nt exist for testset
-- a ton of test cases.  To see model improvements esp if problem is too hard, get avg testcase score instead of expecting all pass
-
-## Transformed datasets
-applies to standard benchmarks like APPS, codecontests, MBPP, HumanEval. good to use when you need them in a common + cleaned format, or easy download
-- Many of them have HF versions
-- some papers have cleaner vers of the datasets eg Reflexion, CodeT
-	- but watch for bugs eg in CodeT, for MBPP id6 it used the first fn instead of the last fn
-	- reflexion: MBPP: id 56, cos they keep using 'check' as defaul eval fn, they rename the original problem to 'checks'. also this has 397 examples which is a subset of the 427 sanitized set by the original MBPP authors
 
 ---
 # Frameworks / Tools
@@ -387,5 +363,5 @@ applies to standard benchmarks like APPS, codecontests, MBPP, HumanEval. good to
     - In most cases, improvement nears or exceeds 2 BLEU;. Max 30 BLEU on php task		
 - they make use of the fact that variable/ method names have info in them			
 - [tree sitter](https://github.com/tree-sitter/tree-sitter) to derive semantic facts 		
-- Data Flow Graph useful but can be very long, trunated to 30 lines		
+- Data Flow Graph useful but can be very long, truncated to 30 lines		
 

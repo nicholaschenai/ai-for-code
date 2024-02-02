@@ -13,7 +13,6 @@ this document is for raw scribbles and is highly disorganized. see `README.md` f
 
 - general
     - Code Generation Tools (Almost) for Free? A Study of Few-Shot, Pre-Trained Language Models on Code
-    - A systematic evaluation of large language models of code
 - security
     - Recommending Root-Cause and Mitigation Steps for Cloud Incidents using Large Language Models
 - testing
