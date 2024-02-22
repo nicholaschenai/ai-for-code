@@ -4,7 +4,11 @@
 	- rounding. Eg task 574, GT uses approx pi instead of true value
 	- fn signature. eg task 640 makes it sound like input is string, but assertion requires list of string!
 	-  wording. Eg GT takes in list of 2-tuples but code takes 2 args, each arg is a v long tuple. See task 417 too.
-- see [MbppPlus](https://github.com/evalplus/evalplus/tree/mbpp/groundtruth/mbpp#check-implementation)for bugfixes
+- see [MbppPlus](https://github.com/evalplus/evalplus/tree/mbpp/groundtruth/mbpp#check-implementation) for bugfixes
+
+# MBPP Plus
+- multiple extra generated test cases per problem, cleaned
+- prompt actually includes 1 test case from original GT
 
 # APPS
 
