@@ -30,13 +30,24 @@ Safeguard example in [HumanEval](https://github.com/openai/human-eval/blob/maste
 # Benchmarks / Datasets
 
 ## Reasoning across files
-| Name                                                                | Year | Description                                                                                                                                                                   | open SOTA | closed SOTA |
-| ------------------------------------------------------------------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------- |
-| [RepoBench](https://github.com/Leolty/repobench)                    | 2023 |                                                                                                                                                                               |           |             |
-| [SWE-BENCH](https://github.com/princeton-nlp/SWE-bench)             | 2023 | "2,294 software engineering problems drawn from real GitHub issues and corresponding pull requests across 12 popular Python repositories". eval via test cases after patching |           |             |
-| [RepoCoder](https://github.com/microsoft/CodeT/tree/main/RepoCoder) | 2023 | "Repository-Level Code Completion Through Iterative Retrieval and Generation"                                                                                                 |           |             |
-| [CrossCodeEval](https://github.com/amazon-science/cceval)           | 2023 | "strictly require cross-file context for accurate completion". evaluation via edit similarity and exact match, no execution                                                   |           |             |
-| [CodePlan](https://github.com/microsoft/codeplan)                   | 2023 |                                                                                                                                                                               |           |             |
+
+### Execution-based eval
+
+| Name                                                                | Year | Description                                                                                                                                                                   | open SOTA            | closed SOTA           |
+| ------------------------------------------------------------------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- | --------------------- |
+| [DevEval](https://github.com/seketeam/DevEval)                      | 2024 | " DevEval contains 2,690 testing samples, collected from 119 practical software projects and covering 10 programming topic"                                                   | CodeLLaMa-13B 18.07% | GPT4 21.60%           |
+| [SWE-BENCH](https://github.com/princeton-nlp/SWE-bench)             | 2023 | "2,294 software engineering problems drawn from real GitHub issues and corresponding pull requests across 12 popular Python repositories". eval via test cases after patching |                      |                       |
+| [RepoCoder](https://github.com/microsoft/CodeT/tree/main/RepoCoder) | 2023 | "Repository-Level Code Completion Through Iterative Retrieval and Generation". 373 execution examples                                                                         |                      | 38.34 exe acc, 1 iter |
+
+### Text similarity based eval
+
+| Name                                                                | Year | Description                                                                                                                                                                                                                      | open SOTA | closed SOTA           |
+| ------------------------------------------------------------------- | ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | --------------------- |
+| [RepoBench](https://github.com/Leolty/repobench)                    | 2023 | "RepoBench-R (Retrieval), RepoBench-C (Code Completion), and RepoBench-P (Pipeline)" "collection from GitHub, spanning the period from **October 6th to November 31st, 2023**". eval via ES and EM instead of execution accuracy |           |                       |
+| [CrossCodeEval](https://github.com/amazon-science/cceval)           | 2023 | "strictly require cross-file context for accurate completion". evaluation via edit similarity and exact match, no execution                                                                                                      |           |                       |
+| [CodePlan](https://github.com/microsoft/codeplan)                   | 2023 | 6 repos for C++ / Python. Text-based metrics. No execution per se, but measures build errors                                                                                                                                     |           |                       |
+| [PyCommits](https://openreview.net/pdf?id=ALVwQjZRS8)               | 2023 | "commit histories of 1650 open-source Python projects". text evaluation, not execution                                                                                                                                           |           |                       |
+| [RepoFusion](https://huggingface.co/RepoFusion)                     | 2023 | 200 Java projects. text evaluation, not execution                                                                                                                                                                                |           |                       |
 
 
 ## Algorithmic synthesis
