@@ -30,11 +30,13 @@ Safeguard example in [HumanEval](https://github.com/openai/human-eval/blob/maste
 # Benchmarks / Datasets
 
 ## Reasoning across files
-| Name | Year | Description | open SOTA | closed SOTA |
-| ---- | ---- | ---- | ---- | ---- |
-| [SWE-BENCH](https://github.com/princeton-nlp/SWE-bench) | 2023 | "2,294 software engineering problems drawn from real GitHub issues and corresponding pull requests across 12 popular Python repositories". eval via test cases after patching |  |  |
-| [RepoCoder](https://github.com/microsoft/CodeT/tree/main/RepoCoder) | 2023 | "Repository-Level Code Completion Through Iterative Retrieval and Generation" |  |  |
-| [CrossCodeEval](https://github.com/amazon-science/cceval) | 2023 | "strictly require cross-file context for accurate completion". evaluation via edit similarity and exact match, no execution |  |  |
+| Name                                                                | Year | Description                                                                                                                                                                   | open SOTA | closed SOTA |
+| ------------------------------------------------------------------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------- |
+| [RepoBench](https://github.com/Leolty/repobench)                    | 2023 |                                                                                                                                                                               |           |             |
+| [SWE-BENCH](https://github.com/princeton-nlp/SWE-bench)             | 2023 | "2,294 software engineering problems drawn from real GitHub issues and corresponding pull requests across 12 popular Python repositories". eval via test cases after patching |           |             |
+| [RepoCoder](https://github.com/microsoft/CodeT/tree/main/RepoCoder) | 2023 | "Repository-Level Code Completion Through Iterative Retrieval and Generation"                                                                                                 |           |             |
+| [CrossCodeEval](https://github.com/amazon-science/cceval)           | 2023 | "strictly require cross-file context for accurate completion". evaluation via edit similarity and exact match, no execution                                                   |           |             |
+| [CodePlan](https://github.com/microsoft/codeplan)                   | 2023 |                                                                                                                                                                               |           |             |
 
 
 ## Algorithmic synthesis
