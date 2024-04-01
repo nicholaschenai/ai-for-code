@@ -11,7 +11,7 @@ Breaking task down into subtasks generally helps
 - "Evaluating Large Language Models Trained on Code" showed that performance decays exponentially with number of components (tasks), even if the individual components are easy
 - Parsel
 ## Getting reuseable modules
--  [codechain](../../gh-notes/ai-for-code/papers/codechain.md), [llm-code-cleaning](../../gh-notes/ai-for-code/papers/llm-code-cleaning.md) prompt-based, to get common reusable modules
+- prompt-based: [codechain](papers/codechain.md) [llm-code-cleaning](papers/llm-code-cleaning.md) 
 # Prompting
 Good prompting can sometimes be more performant than fine-tuning
 
@@ -32,7 +32,7 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 
 ---
 
-# Brief notes on security
+# Security
 Things to look out for when executing code which might be a security risk
 - stuff that can mess with files (eg `os`)
 - stuff that can reverse shell (eg `os`)
@@ -50,7 +50,7 @@ Safeguard example in [HumanEval](https://github.com/openai/human-eval/blob/maste
 
 ---
 
-# Notes on General Papers
+# General Papers
 
 
 ### Clover: Closed-Loop Verifiable Code Generation
@@ -203,12 +203,8 @@ Safeguard example in [HumanEval](https://github.com/openai/human-eval/blob/maste
 - Personal comment: largely LM based, does not contain any standard symbolic stuff like static analysis, running the code etc
 
 
-### CodeChain: Towards Modular Code Generation Through Chain of Self-revisions with Representative Sub-modules
-[[Code](https://github.com/SalesforceAIResearch/CodeChain/)]
 
-### Language Agent Tree Search (LATS)
-[[Code](https://github.com/andyz245/LanguageAgentTreeSearch)]
-- MCTS style for planning-based decision making (eg ToT)
+- CodeChain: Towards Modular Code Generation Through Chain of Self-revisions with Representative Sub-modules [codechain](papers/codechain.md)
 
 ---
 

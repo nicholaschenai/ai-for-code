@@ -2,13 +2,13 @@
 date: 2024-02-22
 time: 23:06
 author: Hung Le, Hailin Chen, Amrita Saha, Akash Gokul, Doyen Sahoo, Shafiq Joty
-title: "CODECHAIN: TOWARDS MODULAR CODE GENERATION\rTHROUGH CHAIN OF SELF-REVISIONS WITH REPRESENTATIVE\rSUB-MODULES"
+title: "CodeChain: Towards Modular Code Generation Through Chain of Self-revisions with Representative Sub-modules"
 created-date: 2024-02-22
 tags:
   - "#AI"
   - codegen
 paper: 
-code:
+code: https://github.com/SalesforceAIResearch/CodeChain/
 ---
 
 # Description of result
