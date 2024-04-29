@@ -2,33 +2,51 @@
 Literature review + quick notes for my own reference so pardon the untidyness. Will occasionally copy paste directly from the papers!
 
 ---
-
 # Challenges
-- limitation of the model's input size, esp when you have a full codebase
+- Limitation of the model's input size, esp when you have a full codebase
 
-# Decomposition
-Breaking task down into subtasks generally helps 
+---
+# Strategies
+
+## Decomposition
+Breaking task down into subtasks generally helps
 - "Evaluating Large Language Models Trained on Code" showed that performance decays exponentially with number of components (tasks), even if the individual components are easy
 - Parsel
-## Getting reuseable modules
-- prompt-based: [codechain](papers/codechain.md) [llm-code-cleaning](papers/llm-code-cleaning.md) 
-# Prompting
-Good prompting can sometimes be more performant than fine-tuning
+### Getting reuseable modules
+- prompt-based: 
+	- [codechain](papers/codechain.md) 
+	- [llm-code-cleaning](papers/llm-code-cleaning.md) 
+## Prompting
+- Good prompting can sometimes be more performant than fine-tuning
+- Iterative prompting to understand code structure (eg [autocoderover](papers/autocoderover.md)) and reduce the amount of info in context to prevent confusion
 
-# Reasoning
-## Verification 
-### via execution / unit tests
+## Reasoning
+### Verification 
+#### Via execution / unit tests
 Code Execution for verification helps (so equip the model with a compiler/ interpreter)
 - "Program Synthesis with Large Language Models" showed that LLMs struggle with basic task of code execution (given fn and input, predict output). 
 - "Language Models Can Teach Themselves to Program Better": gen puzzle, then gen soln. execute to get correct pairs. Use pairs as ft data
 - CodeT filters candidates via execution
 - Including RL, allowing model to interact with code and using the error messages as feedback signal generally helps (eg CodeRL) and makes training more efficient (and smaller model size requirement for same level of performance)
-### self-consistency
+#### Self-consistency
 - clover self consistency
-# Retrieval
+
+### Use existing program analysis tools
+- SBFL to analyze control flow of test cases to assign suspiciousness score to different areas of the code (eg [autocoderover](papers/autocoderover.md))
+
+## Retrieval
 - see [ARKS](https://arxiv.org/pdf/2402.12317.pdf) , [RepoEval](https://arxiv.org/pdf/2312.05772.pdf) for retrieval via docs n websearch, execution n snippets
-# Data
-"Textbooks are all you need" -- shows that data quality matters and influences scaling laws, enables better performance even with smaller models (see Tinystories for more general stuff)
+## Data
+- "Textbooks are all you need" -- shows that data quality matters and influences scaling laws, enables better performance even with smaller models (see Tinystories for more general stuff)
+## Representation
+- [autocoderover](papers/autocoderover.md) represents repo as ASTs so that classes / methods are more apparent, making search easier
+## Patch generation
+- established works:
+	- predefined code mutation operators (eg GenProg)
+	- search over patch space for patches that passes tests
+	- semantic based by formulating then solving repair constraint (eg Angelix, SemFix)
+	- learn from existing github issues (eg iFixR, CrossFix)
+
 
 ---
 
@@ -45,13 +63,13 @@ Safeguard example in [HumanEval](https://github.com/openai/human-eval/blob/maste
 
 ---
 
-# Benchmarks / Datasets [BENCHMARKS](BENCHMARKS.md)
+# Benchmarks / Datasets 
+[BENCHMARKS](BENCHMARKS.md)
 
 
 ---
 
 # General Papers
-
 
 ### Clover: Closed-Loop Verifiable Code Generation
 [[Paper](https://arxiv.org/abs/2310.17807)]
@@ -265,9 +283,8 @@ Safeguard example in [HumanEval](https://github.com/openai/human-eval/blob/maste
         - note to self: maybe an additional layer of cross checking via foundation model / env execution? then feedback to foundation model 
 
 ---
-# Other lit reviews
-
-[A Survey of Large Language Models for Code: Evolution, Benchmarking, and Future Trends](https://arxiv.org/abs/2311.10372)
+# Lit reviews
+- [A Survey of Large Language Models for Code: Evolution, Benchmarking, and Future Trends](https://arxiv.org/abs/2311.10372)
 
 
 ---
