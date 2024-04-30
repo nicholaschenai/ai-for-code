@@ -51,15 +51,18 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 ---
 
 # Security
-Things to look out for when executing code which might be a security risk
+"Do Users Write More Insecure Code with AI Assistants?" (2022) Yes.
+## Things to look out for 
+when executing code which might be a security risk
 - stuff that can mess with files (eg `os`)
 - stuff that can reverse shell (eg `os`)
 - access to global variables can leak API keys
 - stuff that can load files (eg `pickle`, `yaml`) as files can be malicious
 
-Safeguard example in [HumanEval](https://github.com/openai/human-eval/blob/master/human_eval/execution.py) (see `check_correctness()`): 
-
-- "Do Users Write More Insecure Code with AI Assistants?" (2022) Yes.
+## Examples for restricting code execution
+- Safeguard example in [HumanEval](https://github.com/openai/human-eval/blob/master/human_eval/execution.py) (see `check_correctness()`): 
+- in [llamaindex](https://github.com/run-llama/llama_index/blob/9f9d048d56e9f6ac739642e124c7a96bfee2101a/llama_index/exec_utils.py#L143)
+- in [pandas-ai](https://github.com/gventuri/pandas-ai/blob/ff0166139f55864bbd1965daf023ea7f66c00f04/pandasai/helpers/code_manager.py#L186)
 
 ---
 
