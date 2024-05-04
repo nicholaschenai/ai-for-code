@@ -8,10 +8,11 @@ Literature review + quick notes for my own reference so pardon the untidyness. W
 ---
 # Strategies
 
-## Decomposition
+## Decomposition / Planning
 Breaking task down into subtasks generally helps
 - "Evaluating Large Language Models Trained on Code" showed that performance decays exponentially with number of components (tasks), even if the individual components are easy
 - Parsel
+- [llm-code-cleaning](papers/llm-code-cleaning.md) noted that LLMs dont really generate good plans for coding, but are good at following plans
 ### Getting reuseable modules
 - prompt-based: 
 	- [codechain](papers/codechain.md) 
@@ -37,7 +38,14 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 ## Retrieval
 - see [ARKS](https://arxiv.org/pdf/2402.12317.pdf) , [RepoEval](https://arxiv.org/pdf/2312.05772.pdf) for retrieval via docs n websearch, execution n snippets
 ## Data
-- "Textbooks are all you need" -- shows that data quality matters and influences scaling laws, enables better performance even with smaller models (see Tinystories for more general stuff)
+for training, retrieval, curriculum
+
+"Textbooks are all you need" -- shows that data quality matters and influences scaling laws, enables better performance even with smaller models (see Tinystories for more general stuff)
+- Documentation (eg ARKS)
+- Snippets (eg ARKS, [autocoderover](papers/autocoderover.md))
+- Execution feedback
+- Web search (eg ARKS)
+- Github dataset (eg many code-specific LMs are trained on this)
 ## Representation
 - [autocoderover](papers/autocoderover.md) represents repo as ASTs so that classes / methods are more apparent, making search easier
 ## Patch generation
