@@ -7,7 +7,7 @@ created-date: 2024-02-22
 tags:
   - AI
   - codegen
-paper: https://arxiv.org/abs/2311.14904
+paper: https://openreview.net/pdf?id=maRYffiUpI
 code:
 ---
 

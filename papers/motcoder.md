@@ -8,7 +8,7 @@ tags:
   - AI
   - codegen
 paper: 
-code: "https://github.com/dvlabresearch/\rMoTCoder"
+code: https://github.com/dvlab-research/MoTCoder
 ---
 
 # Description of result

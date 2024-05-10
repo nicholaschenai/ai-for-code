@@ -38,9 +38,10 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 ## Retrieval
 - see [ARKS](https://arxiv.org/pdf/2402.12317.pdf) , [RepoEval](https://arxiv.org/pdf/2312.05772.pdf) for retrieval via docs n websearch, execution n snippets
 ## Data
-for training, retrieval, curriculum
+- "Textbooks are all you need" -- shows that data quality matters and influences scaling laws, enables better performance even with smaller models (see Tinystories for more general stuff). In agreement with [llm-code-cleaning](papers/llm-code-cleaning.md) where a smaller model trained on a cleaned dataset outperforms alphacode on codecontests
 
-"Textbooks are all you need" -- shows that data quality matters and influences scaling laws, enables better performance even with smaller models (see Tinystories for more general stuff)
+### For training, retrieval, curriculum
+
 - Documentation (eg ARKS)
 - Snippets (eg ARKS, [autocoderover](papers/autocoderover.md))
 - Execution feedback
