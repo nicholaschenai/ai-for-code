@@ -23,7 +23,10 @@
 	- not all will have input output eg train 4900 has examples within the qn but not the input output json
 - solns: list of strings, multiple solns (Avg 23 soln per qn). May nt exist for testset
 - a ton of test cases.  To see model improvements esp if problem is too hard, get avg testcase score instead of expecting all pass
+- see [llm-code-cleaning](papers/llm-code-cleaning.md) appendix A and (Section 4.1 in Li et al. (2023c) [Think Outside the Code](https://arxiv.org/pdf/2305.10679): Brainstorming Boosts Large Language Models in Code Generation) for processing incorrect solns / domain shift
 
+# CodeContests
+- see [llm-code-cleaning](papers/llm-code-cleaning.md) appendix A  for processing incorrect solns and filtering multiple solns per problem
 # Transformed datasets
 applies to standard benchmarks like APPS, codecontests, MBPP, HumanEval. good to use when you need them in a common + cleaned format, or easy download
 - Many of them have HF versions
