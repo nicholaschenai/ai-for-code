@@ -11,7 +11,7 @@
 - prompt actually includes 1 test case from original GT
 
 # APPS
-
+## Data description
 - `question.txt` contains qn, then input output expectations, examples, and optionally notes.
 - 2 types of probs
 	- call based: has starter code, fn header
@@ -24,6 +24,11 @@
 - solns: list of strings, multiple solns (Avg 23 soln per qn). May nt exist for testset
 - a ton of test cases.  To see model improvements esp if problem is too hard, get avg testcase score instead of expecting all pass
 - see [llm-code-cleaning](papers/llm-code-cleaning.md) appendix A and (Section 4.1 in Li et al. (2023c) [Think Outside the Code](https://arxiv.org/pdf/2305.10679): Brainstorming Boosts Large Language Models in Code Generation) for processing incorrect solns / domain shift
+
+## Evaluation
+- Official parallel eval script at [https://github.com/hendrycks/apps/tree/main/eval](https://github.com/hendrycks/apps/tree/main/eval)
+- eval with returned outputs https://github.com/SalesforceAIResearch/CodeChain/blob/main/src/utils/utils_execute.py
+- CodeT's parallel eval https://github.com/microsoft/CodeT/blob/main/CodeT/src/execution.py
 
 # CodeContests
 - see [llm-code-cleaning](papers/llm-code-cleaning.md) appendix A  for processing incorrect solns and filtering multiple solns per problem
