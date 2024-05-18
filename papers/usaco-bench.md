@@ -90,7 +90,7 @@ zks-type: lit
 - loop iterates until a set max $i = 3$ as they observe no empirical gains in solve rate past 3 rounds (Appendix B.5)
 
 ## Memories
-"We note that when solving problems, humans tend to recall either task-specific, established algorithms, facts, and concepts about the domain, or past experiences and generalizations from solving previous, similar problems relative to the problem at hand. This represents semantic knowledge, and episodic knowledge respectively" reference to  CoALA (my summary [here](../../agi-potential-notes/papers/coala.md))
+"We note that when solving problems, humans tend to recall either task-specific, established algorithms, facts, and concepts about the domain, or past experiences and generalizations from solving previous, similar problems relative to the problem at hand. This represents semantic knowledge, and episodic knowledge respectively" reference to  CoALA
 - Semantic: competitive programming textbook.
 - Episodic: rest of the problems and solns (leave one out)
 
