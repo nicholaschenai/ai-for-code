@@ -20,6 +20,7 @@ Breaking task down into subtasks generally helps
 ## Prompting
 - Good prompting can sometimes be more performant than fine-tuning
 - Iterative prompting to understand code structure (eg [autocoderover](papers/autocoderover.md)) and reduce the amount of info in context to prevent confusion
+- reflexion [usaco-bench](papers/usaco-bench.md)
 
 ## Reasoning
 ### Verification 
@@ -37,6 +38,8 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 
 ## Retrieval
 - see [ARKS](https://arxiv.org/pdf/2402.12317.pdf) , [RepoEval](https://arxiv.org/pdf/2312.05772.pdf) for retrieval via docs n websearch, execution n snippets
+- BM25 still effective in general (eg [usaco-bench](papers/usaco-bench.md))
+	- Might it be due to the drift between natural language and code, that keyword / sparse vector methods can compare well vs dense ebd?
 ## Data
 - "Textbooks are all you need" -- shows that data quality matters and influences scaling laws, enables better performance even with smaller models (see Tinystories for more general stuff). In agreement with [llm-code-cleaning](papers/llm-code-cleaning.md) where a smaller model trained on a cleaned dataset outperforms alphacode on codecontests
 
@@ -47,8 +50,12 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 - Execution feedback
 - Web search (eg ARKS)
 - Github dataset (eg many code-specific LMs are trained on this)
+- competitive programming books (eg [usaco-bench](papers/usaco-bench.md))
+- olympiad problems (eg [usaco-bench](papers/usaco-bench.md))
+- multiple solutions per problem eg APPS, codecontests, TACO
 ## Representation
 - [autocoderover](papers/autocoderover.md) represents repo as ASTs so that classes / methods are more apparent, making search easier
+- [aider](papers/aider.md) pagerank with personalization on files to construct repomap (tree)
 ## Patch generation
 - established works:
 	- predefined code mutation operators (eg GenProg)
