@@ -134,5 +134,5 @@ note: above methods do not require test cases. if they are available, more techn
 - Official dev patch can include fixes that are outside issue desc
 - "issue creator gives a preliminary patch in the description. This patch can be different from the final developer patch, misleading the LLM"
 
-# Code notes
-- main loop in `app/main.py` `do_inference()` which runs `app/inference.py`'s `run_one_task`
+# Practical details
+[acr-practical](../practical-details/acr-practical.md)

@@ -7,7 +7,7 @@
 - see [MbppPlus](https://github.com/evalplus/evalplus/tree/mbpp/groundtruth/mbpp#check-implementation) for bugfixes
 
 # MBPP Plus
-- multiple extra generated test cases per problem, cleaned
+- multiple extra generated test cases per problem, cleaned (total 378 probs after filtering)
 - prompt actually includes 1 test case from original GT
 
 # APPS
@@ -29,6 +29,10 @@
 - a ton of test cases.  To see model improvements esp if problem is too hard, get avg testcase score instead of expecting all pass
 - see [llm-code-cleaning](papers/llm-code-cleaning.md) appendix A and (Section 4.1 in Li et al. (2023c) [Think Outside the Code](https://arxiv.org/pdf/2305.10679): Brainstorming Boosts Large Language Models in Code Generation) for processing incorrect solns / domain shift
 - some SyntaxWarning about 'is' with a literal during execution
+
+### other errors
+- sometimes fn name from problem desc and requirement are different casing (snake vs camel etc)
+-  train id 2413's soln uses precomputed (memorized) output values of the test case rather than code
 ### distribution
 llm code cleaning subset: codeforces, codechef, and atcoder  
 - test set {'codeforces.com': 2953, 'atcoder.jp': 696, 'www.codechef.com': 61, 'leetcode.com': 38, 'open.kattis.com': 1236, 'www.hackerrank.com': 16}  
