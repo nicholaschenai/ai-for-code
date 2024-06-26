@@ -23,6 +23,9 @@ if (
     and "Could not" not in collated_tool_response  
 ):
 ```
+
+## LM inputs
+- full message thread history during stratified convo round, this entire history also passed to patch generation
 # Replication
 - https://github.com/nus-apr/auto-code-rover/blob/main/EXPERIMENT.md
 - output runs: https://github.com/nus-apr/auto-code-rover/tree/main/results
