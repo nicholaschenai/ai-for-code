@@ -29,3 +29,10 @@ if (
 # Replication
 - https://github.com/nus-apr/auto-code-rover/blob/main/EXPERIMENT.md
 - output runs: https://github.com/nus-apr/auto-code-rover/tree/main/results
+
+## validation
+- `agent_write_patch.run_with_retries()` goes in a retry loop where it writes patch, extracts and checks that it is applicable (has diff etc)
+- if perfect angelic debugging enabled, `incorrect_locations = validation.perfect_angelic_debug()` which returns false positive (areas which shouldnt be changed), true positive (correct edit areas), false negative (missing edit areas)
+
+# Debug
+- replay `scripts > replay > replay.py`
