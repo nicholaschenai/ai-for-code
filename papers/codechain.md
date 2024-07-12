@@ -7,7 +7,7 @@ created-date: 2024-02-22
 tags:
   - "#AI"
   - codegen
-paper: 
+paper: https://arxiv.org/abs/2310.08992
 code: https://github.com/SalesforceAIResearch/CodeChain/
 ---
 

@@ -13,6 +13,7 @@ Breaking task down into subtasks generally helps
 - "Evaluating Large Language Models Trained on Code" showed that performance decays exponentially with number of components (tasks), even if the individual components are easy
 - Parsel
 - [llm-code-cleaning](papers/llm-code-cleaning.md) noted that LLMs dont really generate good plans for coding, but are good at following plans
+- Fixed graph workflow [CodeR](papers/CodeR.md)
 ### Getting reuseable modules
 - prompt-based: 
 	- [codechain](papers/codechain.md) 
@@ -33,13 +34,22 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 #### Self-consistency
 - clover self consistency
 
-### Use existing program analysis tools
-- SBFL to analyze control flow of test cases to assign suspiciousness score to different areas of the code (eg [autocoderover](papers/autocoderover.md))
+
 
 ## Retrieval
 - see [ARKS](https://arxiv.org/pdf/2402.12317.pdf) , [RepoEval](https://arxiv.org/pdf/2312.05772.pdf) for retrieval via docs n websearch, execution n snippets
 - BM25 still effective in general (eg [usaco-bench](papers/usaco-bench.md))
 	- Might it be due to the drift between natural language and code, that keyword / sparse vector methods can compare well vs dense ebd?
+- Stackoverflow ([CodeR](papers/CodeR.md))
+- similar GH issues ([CodeR](papers/CodeR.md))
+
+## Grounding (codebase / execution env interaction)
+- navigating codebase (SWE-Agent, [autocoderover](papers/autocoderover.md))
+- LLM generated reproducer tests ([CodeR](papers/CodeR.md))
+- shell commands [CodeR](papers/CodeR.md)
+### Use existing program analysis tools
+- SBFL to analyze control flow of test cases to assign suspiciousness score to different areas of the code (eg [autocoderover](papers/autocoderover.md), [CodeR](papers/CodeR.md))
+
 ## Data
 - "Textbooks are all you need" -- shows that data quality matters and influences scaling laws, enables better performance even with smaller models (see Tinystories for more general stuff). In agreement with [llm-code-cleaning](papers/llm-code-cleaning.md) where a smaller model trained on a cleaned dataset outperforms alphacode on codecontests
 
