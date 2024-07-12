@@ -35,8 +35,6 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 #### Self-consistency
 - clover self consistency
 
-
-
 ## Retrieval
 - see [ARKS](https://arxiv.org/pdf/2402.12317.pdf) , [RepoEval](https://arxiv.org/pdf/2312.05772.pdf) for retrieval via docs n websearch, execution n snippets
 - BM25 still effective in general (eg [usaco-bench](papers/usaco-bench.md))
@@ -77,6 +75,9 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 	- semantic based by formulating then solving repair constraint (eg Angelix, SemFix)
 	- learn from existing github issues (eg iFixR, CrossFix)
 
+## Constraint-guided generation
+- [repilot](papers/repilot.md) uses semantic completion engine with LLMs to prune away probabilities of infeasible tokens
+
 
 ---
 
@@ -107,6 +108,7 @@ when executing code which might be a security risk
 - AutoCodeRover: Autonomous Program Improvement [autocoderover](papers/autocoderover.md)
 - CodeR: Issue Resolving with Multi-Agent and Task Graphs [CodeR](papers/CodeR.md)
 - CodeChain: Towards Modular Code Generation Through Chain of Self-revisions with Representative Sub-modules [codechain](papers/codechain.md)
+- Copiloting the Copilot: Fusing Large Language Models with Completion Engines for Automated Program Repair [repilot](papers/repilot.md)
 
 
 TODO: refactor below into papers folder
@@ -329,6 +331,7 @@ TODO: refactor below into papers folder
 ---
 # Frameworks / Tools
 - [InterCode](https://github.com/princeton-nlp/intercode) "framework for designing interactive code environments to evaluate language agents that can code."
+- [swe-agent](papers/swe-agent.md)
 - langchain python tools like REPL (and pythoninputs data validation model) n sanitize. search python in https://api.python.langchain.com/en/latest/experimental_api_reference.html
 
 ---
