@@ -68,6 +68,8 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 ## Representation
 - [autocoderover](papers/autocoderover.md) represents repo as ASTs so that classes / methods are more apparent, making search easier
 - [aider](papers/aider.md) pagerank with personalization on files to construct repomap (tree)
+- linting [swe-agent](papers/swe-agent.md)
+- summarized search results better than iterative search results [swe-agent](papers/swe-agent.md)
 ## Patch generation
 - established works:
 	- predefined code mutation operators (eg GenProg)
