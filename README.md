@@ -50,6 +50,12 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 - Implicit patch gen (edit by line number) usually works better than explicit (entire patch)
 ### Use existing program analysis tools
 - SBFL to analyze control flow of test cases to assign suspiciousness score to different areas of the code (eg [autocoderover](papers/autocoderover.md), [CodeR](papers/CodeR.md))
+- language server protocol ([repilot](papers/repilot.md), [aide](papers/aide.md))
+- tree sitter to parse ([aide](papers/aide.md), [aider](papers/aider.md), [ASAP](papers/ASAP.md))
+- Data flow graph ([ASAP](papers/ASAP.md) )
+	- representation of the data dependencies between operations in a program (identified by data dependence analysis)
+	- **Nodes** represent operations or computations.
+	- **Edges** represent the flow of data between these operations.
 
 ## Data
 - "Textbooks are all you need" -- shows that data quality matters and influences scaling laws, enables better performance even with smaller models (see Tinystories for more general stuff). In agreement with [llm-code-cleaning](papers/llm-code-cleaning.md) where a smaller model trained on a cleaned dataset outperforms alphacode on codecontests
@@ -66,7 +72,7 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 - multiple solutions per problem eg APPS, codecontests, TACO
 ## Representation
 - [autocoderover](papers/autocoderover.md) represents repo as ASTs so that classes / methods are more apparent, making search easier
-- [aider](papers/aider.md) pagerank with personalization on files to construct repomap (tree)
+- repomap (tree) ([[aide]], [aider](papers/aider.md) pagerank with personalization on files)
 - linting [swe-agent](papers/swe-agent.md)
 - summarized search results better than iterative search results [swe-agent](papers/swe-agent.md)
 ## Patch generation
@@ -104,13 +110,18 @@ when executing code which might be a security risk
 
 ---
 
-# General Papers
-
+# Papers
+## Reasoning across repo
 - AutoCodeRover: Autonomous Program Improvement [autocoderover](papers/autocoderover.md)
 - CodeR: Issue Resolving with Multi-Agent and Task Graphs [CodeR](papers/CodeR.md)
-- CodeChain: Towards Modular Code Generation Through Chain of Self-revisions with Representative Sub-modules [codechain](papers/codechain.md)
-- Copiloting the Copilot: Fusing Large Language Models with Completion Engines for Automated Program Repair [repilot](papers/repilot.md)
+
+## Algorithmic synthesis
 - ALGO: Synthesizing Algorithmic Programs with LLM-Generated Oracle Verifiers [algo](papers/algo.md)
+- CodeChain: Towards Modular Code Generation Through Chain of Self-revisions with Representative Sub-modules [codechain](papers/codechain.md)
+## Program repair
+- Copiloting the Copilot: Fusing Large Language Models with Completion Engines for Automated Program Repair [repilot](papers/repilot.md)
+## Summarization
+- Improving Few-shot Prompts with Relevant Static Analysis Products [ASAP](papers/ASAP.md)
 
 
 TODO: refactor below into papers folder
@@ -373,13 +384,4 @@ TODO: refactor below into papers folder
     - hallucinate inexistent types, methods, etc..  most common compilation error was due to missing symbols. For instance, Codex generated inputs whose type were Tuple, Pair, Triple, Quad, and Quint, which are non-existent in Java’s default classpath.
     - may not reason over path feasibility
 
-### Improving Few-shot Prompts with Relevant Static Analysis Products 
-[[Code](https://zenodo.org/record/7793516)]			
-- task: converting code into natural language for documentation/ commenting. Can be used to doublecheck a code generator?			
-- RAG via BM25		
-- adding semantic facts actually does help			
-    - In most cases, improvement nears or exceeds 2 BLEU;. Max 30 BLEU on php task		
-- they make use of the fact that variable/ method names have info in them			
-- [tree sitter](https://github.com/tree-sitter/tree-sitter) to derive semantic facts 		
-- Data Flow Graph useful but can be very long, truncated to 30 lines		
 
