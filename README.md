@@ -32,6 +32,7 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 - "Language Models Can Teach Themselves to Program Better": gen puzzle, then gen soln. execute to get correct pairs. Use pairs as ft data
 - CodeT filters candidates via execution
 - Including RL, allowing model to interact with code and using the error messages as feedback signal generally helps (eg CodeRL) and makes training more efficient (and smaller model size requirement for same level of performance)
+- [algo](papers/algo.md) first makes oracle which brute forces the soln, then gets another process to attempt the more efficient soln n verify outputs with oracle
 #### Self-consistency
 - clover self consistency
 
@@ -109,6 +110,7 @@ when executing code which might be a security risk
 - CodeR: Issue Resolving with Multi-Agent and Task Graphs [CodeR](papers/CodeR.md)
 - CodeChain: Towards Modular Code Generation Through Chain of Self-revisions with Representative Sub-modules [codechain](papers/codechain.md)
 - Copiloting the Copilot: Fusing Large Language Models with Completion Engines for Automated Program Repair [repilot](papers/repilot.md)
+- ALGO: Synthesizing Algorithmic Programs with LLM-Generated Oracle Verifiers [algo](papers/algo.md)
 
 
 TODO: refactor below into papers folder
