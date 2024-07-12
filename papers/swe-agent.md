@@ -9,7 +9,6 @@ paper:
 code: https://github.com/princeton-nlp/swe-agent
 zks-type: lit
 ---
-==Note to self:  in my own words, not copy paste then delete==
 # Description of result
 - Agent-Computer Interface + LM agent
 - SWE-bench and HumanEvalFix, pass@1 rate of 12.5% and 87.7%,
