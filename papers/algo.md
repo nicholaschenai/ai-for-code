@@ -27,6 +27,7 @@ foo
 I is not specified. they give 3 examples:
 - implicit searcher: sample directly from LLM but reliant on model (they use Codex and CodeT)
 - Instruction enumerator: enumerate thru high-level ideas of algorithms such as ‘Binary Search’ and ‘Sorting’. (use chatGPT code interpreter with underlying text-davinci-002-code)
+	- see https://github.com/zkx06111/ALGO/blob/master/prompts.py at the end. about 70 heuristic instructions
 - iterative searcher: explicit searcher that takes the signal from the verifier to refine its output. search space is token vocab (they used PG-TD)
 
 ---
