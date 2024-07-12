@@ -13,7 +13,10 @@ zks-type: lit
 # Description of result
 - 28.33% pass@1 on SWE-Bench lite
 ![](assets/Pasted%20image%2020240712144334.png)
-- implicit patch gen: generate git diffs. probably better cos "existing
+
+- "directly enabling LLMs to generate patches (explicit patch generation) for issues is less effective than
+having LLMs edit the code repository (implicit patch generation)." 
+- implicit patch gen: edit via line number. probably better cos "existing
 LLMs may struggle to generate applicable and high-quality patches, as a correct patch requires a strict format and is
 sensitive to line numbers, which LLMs cannot perfectly handle."
 
@@ -74,9 +77,6 @@ large action space (reuse those by SWE-agent and [autocoderover](autocoderover.m
 
 # Other
 
-## Discussion
-- "directly enabling LLMs to generate patches (explicit patch generation) for issues is less effective than
-having LLMs edit the code repository (implicit patch generation)."
 
 ## Codebase
 - not up yet, tho logs and trajs are.

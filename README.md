@@ -14,6 +14,7 @@ Breaking task down into subtasks generally helps
 - Parsel
 - [llm-code-cleaning](papers/llm-code-cleaning.md) noted that LLMs dont really generate good plans for coding, but are good at following plans
 - Fixed graph workflow [CodeR](papers/CodeR.md)
+- advantage of planning: LLMs ability to remember context and follow instructions degrade w ctx len
 ### Getting reuseable modules
 - prompt-based: 
 	- [codechain](papers/codechain.md) 
@@ -47,6 +48,7 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 - navigating codebase (SWE-Agent, [autocoderover](papers/autocoderover.md))
 - LLM generated reproducer tests ([CodeR](papers/CodeR.md))
 - shell commands [CodeR](papers/CodeR.md)
+- Implicit patch gen (edit by line number) usually works better than explicit (entire patch)
 ### Use existing program analysis tools
 - SBFL to analyze control flow of test cases to assign suspiciousness score to different areas of the code (eg [autocoderover](papers/autocoderover.md), [CodeR](papers/CodeR.md))
 
@@ -100,6 +102,12 @@ when executing code which might be a security risk
 
 # General Papers
 
+- AutoCodeRover: Autonomous Program Improvement [autocoderover](papers/autocoderover.md)
+- CodeR: Issue Resolving with Multi-Agent and Task Graphs [CodeR](papers/CodeR.md)
+- CodeChain: Towards Modular Code Generation Through Chain of Self-revisions with Representative Sub-modules [codechain](papers/codechain.md)
+
+
+TODO: refactor below into papers folder
 ### Clover: Closed-Loop Verifiable Code Generation
 [[Paper](https://arxiv.org/abs/2310.17807)]
 - Dafny programs as it allows for formal verification
@@ -251,7 +259,7 @@ when executing code which might be a security risk
 
 
 
-- CodeChain: Towards Modular Code Generation Through Chain of Self-revisions with Representative Sub-modules [codechain](papers/codechain.md)
+
 
 ---
 
