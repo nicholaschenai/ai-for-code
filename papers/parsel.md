@@ -32,6 +32,17 @@ foo
 ![](assets/Pasted%20image%2020240802160531.png)
 - also see their longer form algo and Lisp ver in appendix
 
+## Handling constraints during fn search
+3 types
+- sequential case: all have constraints, no recursion: post order traversal, implement from leaf to parent eventually to root
+- recusion: identify strongly connected components of call graph, evaluate without replacement of their product space
+- fns without constraints: include it as part of an SCC of its parent so it depends on its parents for constraints. also comes with LM generated tests (which could be inaccurate so they use the approach from CodeT filtering)
+
+## Recovery from failure
+- auto decompose fn further
+- retry new implementations of scc with diff seed (backtracking)
+
+
 ---
 
 # Other
@@ -45,3 +56,6 @@ foo
 ## examples
 
 ![](assets/Pasted%20image%2020240802155457.png)
+
+## Codebase notes
+- Doesnt come with the first step (decomposition) but prompts are in paper there so can reconstruct

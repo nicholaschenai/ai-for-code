@@ -89,6 +89,7 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 
 ## Constraint-guided generation
 - [repilot](papers/repilot.md) uses semantic completion engine with LLMs to prune away probabilities of infeasible tokens
+- [parsel](papers/parsel.md) identifies SCCs of fns and generates multiple samples for each fn, then evals the constraints on the entire SCC
 
 
 ---
