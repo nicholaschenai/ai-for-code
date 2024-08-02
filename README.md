@@ -8,10 +8,12 @@ Literature review + quick notes for my own reference so pardon the untidyness. W
 ---
 # Strategies
 
-## Decomposition / Planning
+## Decomposition
 Breaking task down into subtasks generally helps
 - "Evaluating Large Language Models Trained on Code" showed that performance decays exponentially with number of components (tasks), even if the individual components are easy
-- Parsel
+- [parsel](papers/parsel.md) decompose into Parsel programs (desc, references (referencing other code), constraints), resolve dependencies, search over candidate fns and check against validation set
+## Planning
+(Decomposition is the breakdown of a task into subtasks. Planning is the arrangement of such subtasks in sequences and maybe fill in some params)
 - [llm-code-cleaning](papers/llm-code-cleaning.md) noted that LLMs dont really generate good plans for coding, but are good at following plans
 - Fixed graph workflow [CodeR](papers/CodeR.md)
 - advantage of planning: LLMs ability to remember context and follow instructions degrade w ctx len
@@ -35,6 +37,9 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 - [algo](papers/algo.md) first makes oracle which brute forces the soln, then gets another process to attempt the more efficient soln n verify outputs with oracle
 #### Self-consistency
 - clover self consistency
+## Decision Procedures
+- enumerate thru high-level ideas of algorithms such as ‘Binary Search’ and ‘Sorting’ in prompt [algo](papers/algo.md)
+
 
 ## Retrieval
 - see [ARKS](https://arxiv.org/pdf/2402.12317.pdf) , [RepoEval](https://arxiv.org/pdf/2312.05772.pdf) for retrieval via docs n websearch, execution n snippets
@@ -107,13 +112,19 @@ when executing code which might be a security risk
 # Benchmarks / Datasets 
 [BENCHMARKS](BENCHMARKS.md)
 
+---
+# Frameworks / Tools
+- [InterCode](https://github.com/princeton-nlp/intercode) "framework for designing interactive code environments to evaluate language agents that can code."
+- [swe-agent](papers/swe-agent.md) based on intercode
+- langchain python tools like REPL (and pythoninputs data validation model) n sanitize. search python in https://api.python.langchain.com/en/latest/experimental_api_reference.html
 
 ---
-
 # Papers
 ## Reasoning across repo
 - AutoCodeRover: Autonomous Program Improvement [autocoderover](papers/autocoderover.md)
 - CodeR: Issue Resolving with Multi-Agent and Task Graphs [CodeR](papers/CodeR.md)
+- [aide](papers/aide.md)
+- [aider](papers/aider.md)
 
 ## Algorithmic synthesis
 - ALGO: Synthesizing Algorithmic Programs with LLM-Generated Oracle Verifiers [algo](papers/algo.md)
@@ -122,6 +133,9 @@ when executing code which might be a security risk
 - Copiloting the Copilot: Fusing Large Language Models with Completion Engines for Automated Program Repair [repilot](papers/repilot.md)
 ## Summarization
 - Improving Few-shot Prompts with Relevant Static Analysis Products [ASAP](papers/ASAP.md)
+
+## Lit reviews
+- [A Survey of Large Language Models for Code: Evolution, Benchmarking, and Future Trends](https://arxiv.org/abs/2311.10372)
 
 
 TODO: refactor below into papers folder
@@ -197,12 +211,6 @@ TODO: refactor below into papers folder
 - weaknesses
     - still makes silly mistakes like syntax error, value/ idx error, type error	
         - suggests that writing own templates then substituting params can be useful
-
-### Parsel : A (De-)compositional Framework for Algorithmic Reasoning with Language Models
-[[Code](https://github.com/ezelikman/parsel)]	
-- task decomposition for code gen , robotic programming and thm proving
-- beats codex, alphacode, usually with a smaller budget!
-
 ### Self-collaboration Code Generation via ChatGPT		
 - multiple instances of GPT to go thru the SW dev process ( analysis, coding, and testing) rather than just "generate me code"	
     - Given a requirement x, the analyst decomposes x into several easy-to-solve subtasks that facilitate straightforward implementation by coder, and develops a high-level plan that outlines the major steps of the implementation.
@@ -336,16 +344,7 @@ TODO: refactor below into papers folder
     - makes simple mistakes like syntax error (missing parentheses), reversed args, wrong number of args
         - note to self: maybe an additional layer of cross checking via foundation model / env execution? then feedback to foundation model 
 
----
-# Lit reviews
-- [A Survey of Large Language Models for Code: Evolution, Benchmarking, and Future Trends](https://arxiv.org/abs/2311.10372)
 
-
----
-# Frameworks / Tools
-- [InterCode](https://github.com/princeton-nlp/intercode) "framework for designing interactive code environments to evaluate language agents that can code."
-- [swe-agent](papers/swe-agent.md)
-- langchain python tools like REPL (and pythoninputs data validation model) n sanitize. search python in https://api.python.langchain.com/en/latest/experimental_api_reference.html
 
 ---
 # Other
