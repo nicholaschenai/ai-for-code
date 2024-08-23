@@ -4,6 +4,7 @@ Literature review + quick notes for my own reference so pardon the untidyness. W
 ---
 # Challenges
 - Limitation of the model's input size, esp when you have a full codebase
+- "LLMs are bad at returning code in JSON" [aider](papers/aider.md)
 
 ---
 # Strategies
@@ -17,7 +18,7 @@ Breaking task down into subtasks generally helps
 - [llm-code-cleaning](papers/llm-code-cleaning.md) noted that LLMs dont really generate good plans for coding, but are good at following plans
 - Fixed graph workflow [CodeR](papers/CodeR.md)
 - advantage of planning: LLMs ability to remember context and follow instructions degrade w ctx len
-### Getting reuseable modules
+## Getting reuseable modules
 - prompt-based: 
 	- [codechain](papers/codechain.md) 
 	- [llm-code-cleaning](papers/llm-code-cleaning.md) 

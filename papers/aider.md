@@ -30,3 +30,7 @@ also see [base_coder](https://github.com/paul-gauthier/aider/blob/main/aider/cod
 - distribute pagerank of nodes to neighbors
 - repomap tree constructed from ranked nodes, up to user specified token amount
 
+---
+
+# Other
+- apparently found that LLMs are bad at returning code in JSON (up to 10% performance drop)
