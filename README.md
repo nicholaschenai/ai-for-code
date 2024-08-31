@@ -26,9 +26,10 @@ Breaking task down into subtasks generally helps
 - Good prompting can sometimes be more performant than fine-tuning
 - Iterative prompting to understand code structure (eg [autocoderover](papers/autocoderover.md)) and reduce the amount of info in context to prevent confusion
 - reflexion [usaco-bench](papers/usaco-bench.md)
+- to understand summaries of fns and classes and relationship to the issue [specrover](papers/specrover.md)
 
 ## Reasoning
-### Verification 
+### Validation 
 #### Via execution / unit tests
 Code Execution for verification helps (so equip the model with a compiler/ interpreter)
 - "Program Synthesis with Large Language Models" showed that LLMs struggle with basic task of code execution (given fn and input, predict output). 
@@ -36,6 +37,7 @@ Code Execution for verification helps (so equip the model with a compiler/ inter
 - CodeT filters candidates via execution
 - Including RL, allowing model to interact with code and using the error messages as feedback signal generally helps (eg CodeRL) and makes training more efficient (and smaller model size requirement for same level of performance)
 - [algo](papers/algo.md) first makes oracle which brute forces the soln, then gets another process to attempt the more efficient soln n verify outputs with oracle
+- [specrover](papers/specrover.md) reviewer agent checks patch's results on generated tests, and the correctness of generated tests itself
 #### Self-consistency
 - clover self consistency
 ## Decision Procedures
