@@ -9,7 +9,6 @@ paper: https://arxiv.org/pdf/2304.06815v1
 code: https://zenodo.org/record/7793516
 zks-type: lit
 ---
-==Note to self:  in my own words, not copy paste then delete==
 # Description of result
 - task: converting code into natural language for documentation/ commenting. Can be used to doublecheck a code generator?
 - adding semantic facts actually does help			

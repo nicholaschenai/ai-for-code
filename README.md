@@ -125,7 +125,7 @@ when executing code which might be a security risk
 ---
 # Papers
 ## Reasoning across repo
-- AutoCodeRover: Autonomous Program Improvement [autocoderover](papers/autocoderover.md)
+- AutoCodeRover: Autonomous Program Improvement [autocoderover](papers/autocoderover.md)  and its v2 [specrover](papers/specrover.md)
 - CodeR: Issue Resolving with Multi-Agent and Task Graphs [CodeR](papers/CodeR.md)
 - [aide](papers/aide.md)
 - [aider](papers/aider.md)

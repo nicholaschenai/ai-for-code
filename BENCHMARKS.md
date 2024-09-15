@@ -1,5 +1,9 @@
 # Benchmarks / Datasets
 
+## Reasoning across versions
+| Name                                          | Year | Description                                                                                                                                                                                                                     | open SOTA | closed SOTA |
+| --------------------------------------------- | ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- | ----------- |
+| [VersiCode](https://arxiv.org/pdf/2406.07411) | 2024 | Dataset of 300 libraries over 2k versions over 9yrs. Benchmark 1: Version specific code completion. Benchmark 2: Version-aware code editing (given inputs from a specific version, generate code in a target different version) |           |             |
 ## Reasoning across files
 
 ### Execution-based eval
