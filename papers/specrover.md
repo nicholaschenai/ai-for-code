@@ -80,8 +80,9 @@ All the parsed API commands are saved in `tool_call_layers.json`, a list of list
 Overview step 4) Buggy locations and their function summaries passed to patching agent to write patch
 - Additional context: if buggy method is an overriden instance due to inheritance, the overriding instance is provided. Also, sometimes the class is provided along with the buggy method (not sure how)
 - Agent prompted to reason first before writing patch
-- `patch_raw_n.md` raw message from patch agent, which is attempted to be extracted into `extracted_patch_n.diff` and the extraction status for all iterations are in `extract_status.json` (APPLICABLE PATCH, MATCHED BUT EMPTY ORIGIN ...)
-- `conv_patch_n.json` conversation history of patch write attempt
+- If error reproduced, multiple retries `n` refers to write patch and reviewer critique iterations. Else (no reproduction info available in issue message or reproduce attempts fail), multiple retries `n` refers to independent attempts at the same issue
+	- `patch_raw_n.md` raw message from patch agent, which is attempted to be extracted into `extracted_patch_n.diff` and the extraction status for all iterations are in `extract_status.json` (APPLICABLE PATCH, MATCHED BUT EMPTY ORIGIN ...)
+	- `conv_patch_n.json` conversation history of patch write attempt
 
 ## Reviewer agent
 Overview step 5) Patch `i` and reproducer test `j` and the execution results of each are passed to reviewer agent. The reviewer performs the analysis below, the full convo is saved to `conv_review_i_j.json` and the analysis is extracted properly into `review_pi_tj.json` 
