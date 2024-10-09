@@ -64,6 +64,7 @@ Given: issue and error message (which shows the execution trace) from reproducer
 	- AI's response in plaintext are parsed by an LM into structured JSON, and the parsing convo is saved in `agent_proxy_n.json`. 
 		- issued search API commands are parsed as API function name and arguments
 		- identified buggy locations and analysis (not done in first iteration of loop) are parsed as `file`, `class`, `method` and `intended_behavior`
+		- list of list of messages. Inner list is the conversation history. outer list is the list of retries (retry occurs when there is a parsing error)
 	- if AI identifies buggy locations and performs analysis, break loop
 	- API calls invoked, search results are returned
 	- AI prompted to 
@@ -97,4 +98,4 @@ Overview step 6) If patch from previous step is judged to be correct, and regres
 - `regression_n.json`: no additional failure just indicates if patch is correct for regression test attempt `n`
 - `run_test_suite_n.log` existing regression test suite. `n` can be `EMPTY` for no patch
 
-If there is no regression, accept patch as final. Else, retry the entire workflow; the results in folder `taskname/output_i` indicates the `i`th workflow retry
+If there is no regression, accept patch as final. Else, retry the entire workflow; the results in folder `taskname/output_i` indicates the `i`th workflow retry (retry by rotating to another model)
