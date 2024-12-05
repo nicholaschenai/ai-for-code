@@ -6,8 +6,9 @@ title: Can Language Models Solve Olympiad Programming?
 created-date: 2024-05-17
 tags: 
 paper: https://arxiv.org/abs/2404.10952
-code: https://princeton-nlp.github.io/USACOBench/
+code: https://github.com/princeton-nlp/USACO
 zks-type: lit
+site: https://princeton-nlp.github.io/USACOBench/
 ---
 
 # Description of result
@@ -24,7 +25,7 @@ zks-type: lit
 ## Eval
 - "However, all methods are still far from solving the benchmark above bronze level, the easiest difficulty tier."
 - smaller models struggle for silver and above, larger models struggle for gold and above. platinum remains unsolved
-- other than CodeLlamma, no model errs are mainly due to compile err (i.e. they get the syntax right and the main errors come from algorithmic or 'understanding the real problem' type of errors)
+- other than CodeLlama, no model errs are mainly due to compile err (i.e. they get the syntax right and the main errors come from algorithmic or 'understanding the real problem' type of errors)
 ### Zero shot
 - GPT-4 only achieves a 8.7% pass@1 accuracy with zero-shot CoT
 ![](assets/Pasted%20image%2020240518124446.png)
@@ -38,10 +39,12 @@ zks-type: lit
 ### "Episodic Retrieval works across model sizes, unlike Reflexion"
 - "This is likely because self-reflection relies on the internal model’s strength to reason over sparse, binary reward signals. Retrieval, on the other hand, allows models to reference existing reasoning and code snippets, requiring less intrinsic model capabilities. Our findings thus corroborate Li et al. (2023a), where LMs can understand much more complex competitive programming solutions than they can produce."
 ### "Episodic Retrieval and Reflexion have strong synergy"
-- Best combo is episodic (other olympiad probs) + reflexion, GPT-4 20.2%, over double of zero shot performance
+- Best combo is episodic (other olympiad probs) + reflexion, GPT-4 20.2%, 
+	- over double of zero shot performance
 - Semantic + episodic + reflexion is slightly worse than episodic + reflexion
 	- "for GPT-4, 70.2% of newly solved problems (relative to zero-shot) with semantic retrieval are also newly solved by episodic retrieval." 
-	- probably cos of longer context n things lost in middle without additional info gain (Liu et al., 2024). (i also observed this in other expts)
+	- probably due longer context + lost in middle without additional info gain (Liu et al., 2024). 
+		- personal comment: i also observed this in other expts
 	- "In contrast, only 45.9% of newly solved problems with Reflexion overlap with episodic retrieval"
 ### "Performance gains are not due to memorization."
 - eval on 36 problems after training cutoff; solve rate drops to 0 for all. "USACO questions are well known to increase in difficulty every year, making this likely an effect of difficulty increases, inclusion in pre-training data, as well as small sample size."
@@ -64,7 +67,7 @@ zks-type: lit
 ---
 # How it compares to previous work
 - other benchmarks like HumanEval and MBPP 'effectively solved' with rates >90% 
-	- (my note: actually MBPP dataset isnt that clean; MBPP+ as a benchmark is more reflective and I havent seen any works going into the 90% range for this yet)
+	- personal note: MBPP dataset isnt that clean; MBPP+ is more reflective and I havent seen any works going into the 90% range yet
 - "previous explorations of competitive programming lack exhaustive unit test suites, lack problem analyses, or lack enough problem diversity to comprehensively evaluate algorithmic reasoning"
 - "unlike previous program synthesis benchmarks, successful models must reason over ad hoc environments, creating novel algorithms tailored to each problem scenario"
 - Official analyses + competitive programming textbook is sth i dont see usually in other data sets
@@ -95,10 +98,12 @@ zks-type: lit
 - Episodic: rest of the problems and solns (leave one out)
 
 ## Retrieval
-- Ctx is problem desc + LM's first attempt in code
-	- "This allows accurate retrieve relevant algorithm descriptions from the underlying retrieval corpus, as solely utilizing the problem descriptions does not allow retrieval over algorithmic keywords. ... do not count this initial generation as an attempt ... does not get evaluated by our local judge"
+- Ctx (retrieval query) is problem desc + LM's first generation in code
+	- more accurate retrieval due to algorithmic keywords (problem description might not contain those as its wrapped in a story)
+	- first generation not counted as attempt as not evaluated by local judge
 	- from below, its 1.5% improvement
-	- tuning the num retrieved param: over 1-4, 2 works best, suggesting context len should preferrably be short
+	- tuning the num retrieved param: over 1-4, 2 works best, 
+		- suggesting context len should preferrably be short
 		- episodic: optimal to retrieve 2 entries for GPT4, 1 entry for GPT3.5
 - BM25 for RAG (isit cos too much data?)
 - as semantic can be quite long, the inputs are truncated
