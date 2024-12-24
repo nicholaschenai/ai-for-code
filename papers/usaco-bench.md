@@ -85,11 +85,20 @@ site: https://princeton-nlp.github.io/USACOBench/
 # Main strategies used to obtain results
 ![](assets/Pasted%20image%2020240518121646.png)
 ## Prompting: Reflexion
-- model first prompted to solve the problem by generating code and explanation
-- For each iteration of reflection
-	- model prompted to reflect on what went wrong previously
-	- then fix the previous code, given the prev soln, execution output of prev soln,  contents of a buffer of past solve attempts. 
-	- buffer details: accumulative history of previous buffer, current response (attempted soln), execution output, retrieval text, `retrieval_problem_ids`, problem description
+- model first prompted to solve the problem by generating code and explanation `solve_prompt_fn` in `prompts.py` and `run_solve` in `utils.py`, where model is given
+	- sys instruction
+	- problem description
+- the problem and model's attempted solution is used for retrieval (see `retrieval_prompt_fn` in prompts and `run_retrieval` in utils), and the model attempts to solve the problem given
+	- sys instruction
+	- retrieval text
+	- problem description
+- then, model goes thru reflexion. for each iteration, model prompted with
+	- reminder that it was previously solving a problem, include problem description
+	- retrieval text
+	- reflection buffer, an accumulative history of
+		- model response (coding attempt)
+		- execution output
+	- instruction to return prev soln if all tests passed, else reflect on what went wrong previously then re-attempt
 - loop iterates until a set max $i = 3$ as they observe no empirical gains in solve rate past 3 rounds (Appendix B.5)
 
 ## Memories
