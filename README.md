@@ -113,8 +113,8 @@ when executing code which might be a security risk
 
 ---
 
-# Benchmarks / Datasets 
-[BENCHMARKS](BENCHMARKS.md)
+## Benchmarks / Datasets 
+[BENCHMARKS](BENCHMARKS.md) and the accompanying [PRACTICAL-DETAILS](PRACTICAL-DETAILS.md)
 
 ---
 # Frameworks / Tools
